@@ -1,4 +1,4 @@
-package cn.sample.api.test.entity;
+package cn.sample.test.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

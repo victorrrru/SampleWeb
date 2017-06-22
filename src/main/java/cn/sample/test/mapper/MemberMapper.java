@@ -1,7 +1,7 @@
-package cn.sample.api.test.mapper;
+package cn.sample.test.mapper;
 
 import cn.itht.mybatis.criteria.Criteria;
-import cn.sample.api.test.entity.Member;
+import cn.sample.test.entity.Member;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

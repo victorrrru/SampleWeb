@@ -13,7 +13,7 @@
     <!--<bean id="formulaYaml" class="org.springframework.beans.factory.config.YamlPropertiesFactoryBean">-->
     <!--<property name="resources" value="classpath*:formula.yml"/>-->
     <!--</bean>-->
-    <context:component-scan base-package="cn.sample.api.test">
+    <context:component-scan base-package="cn.sample.test">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
     <!-- redis -->

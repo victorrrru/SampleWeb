@@ -1,4 +1,4 @@
-package cn.sample.api.test.web;
+package cn.sample.test.web;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  * Created by victorrrr on 2017/6/15.
  */
-@WebFilter(filterName = "TestFilter",urlPatterns = "/test/register")
+@WebFilter(filterName = "TestFilter",urlPatterns = "/member/register")
 public class TestFilter implements Filter {
     public void destroy() {
     }

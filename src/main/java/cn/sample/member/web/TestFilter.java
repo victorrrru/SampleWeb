@@ -1,4 +1,4 @@
-package cn.sample.test.web;
+package cn.sample.member.web;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

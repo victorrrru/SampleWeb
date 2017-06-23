@@ -1,4 +1,4 @@
-package cn.sample.test.entity;
+package cn.sample.member.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

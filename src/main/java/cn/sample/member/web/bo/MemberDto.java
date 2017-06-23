@@ -1,4 +1,4 @@
-package cn.sample.test.web.bo;
+package cn.sample.member.web.bo;
 
 /**
  * Created by victorrrr on 2017/6/22.

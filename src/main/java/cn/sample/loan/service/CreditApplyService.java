@@ -11,7 +11,9 @@ import cn.sample.loan.entity.CreditApply;
 import cn.sample.loan.mapper.CreditApplyMapper;
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 
 import cn.sample.loan.web.CreditApplyAction;
@@ -35,9 +37,12 @@ public class CreditApplyService implements Serializable {
 	private CreditApplyMapper creditApplyMapper;
 	private FacePPUtil.FacePPIDCardInfo idCardInfo;
 
-	public ResultDto creditIdCard(CreditApplyDto applyDto) {
-		ResultDto result = new ResultDto();
-
+	/**
+	 * 将身份证上的个人信息存入数据库
+	 * @param applyDto
+	 * @return
+	 */
+	public HashMap<String, String> creditIdCard(CreditApplyDto applyDto) {
 		try {
 			idCardInfo = FacePPUtil.getIDCard(applyDto.getFront());
 		} catch (Exception e) {
@@ -66,7 +71,12 @@ public class CreditApplyService implements Serializable {
 		creditApply.setMemberId(applyDto.getMemId());
 		creditApply.setNativePlace(IDCardUtil.nativePlace(idCardInfo.getId_card_number()));
 		creditApplyMapper.insertSelective(creditApply);
-		result.setData(creditApply);
-		return result;
+
+		HashMap<String, String> map = new HashMap<>();
+		map.put("creditId", creditApply.getCaId().toString());
+		map.put("idCard",creditApply.getIdCard());
+		map.put("address",creditApply.getAddress());
+		map.put("name",creditApply.getName());
+		return map;
 	}
 }

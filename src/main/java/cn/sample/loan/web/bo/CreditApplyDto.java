@@ -14,10 +14,6 @@ public class CreditApplyDto {
      */
     private String back;
     /**
-     * 身份证头像
-     */
-    private String face;
-    /**
      * 用户id
      */
     private Integer memId;
@@ -36,14 +32,6 @@ public class CreditApplyDto {
 
     public void setBack(String back) {
         this.back = back;
-    }
-
-    public String getFace() {
-        return face;
-    }
-
-    public void setFace(String face) {
-        this.face = face;
     }
 
     public Integer getMemId() {

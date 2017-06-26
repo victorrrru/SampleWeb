@@ -1,7 +1,7 @@
 package cn.sample.loan.web;
 
 import cn.itht.dto.ResultDto;
-import cn.sample.loan.service.CreditApplyService;
+import cn.sample.facade.LoanFacade;
 import cn.sample.loan.web.bo.CreditApplyDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,16 +14,25 @@ import org.springframework.web.bind.annotation.*;
  * @since 2017-06-23 10:44:54
  */
 @RestController
-@RequestMapping(value = "/noauthor")
+@RequestMapping(value = "/noauthor/credit")
 public class CreditApplyAction {
 
 	@Autowired
-	private CreditApplyService creditApplyService;
+	private LoanFacade loanFacade;
 
-	@RequestMapping(value = "/credit/idCard",method = RequestMethod.POST,produces = "application/json")
+	/**
+	 * 场景：授信传入身份证
+	 * 征信第一步的步骤：
+	 	1：用户上传身份证照片到阿里云（APP）
+	 	2：提交阿里云URL 与用户关联（API）
+	 	3：调用FACE++证件API 识别身份证信息，并保存，返回成功信息。
+	 * @param applyDto
+	 * @return
+	 */
+	@RequestMapping(value = "/idCard",method = RequestMethod.POST,produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<ResultDto> idCard(@RequestBody CreditApplyDto applyDto) {
-		return new ResponseEntity<ResultDto>(creditApplyService.creditIdCard(applyDto), HttpStatus.OK);
+		return new ResponseEntity<ResultDto>(loanFacade.creditIdCard(applyDto), HttpStatus.OK);
 	}
 
 }

@@ -14,7 +14,6 @@ public class TestFilter implements Filter {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
-        //System.out.println(req.getParameter("version"));
         System.out.println(((HttpServletRequest) req).getMethod());
         chain.doFilter(req, resp);
     }

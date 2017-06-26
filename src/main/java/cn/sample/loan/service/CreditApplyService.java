@@ -5,7 +5,6 @@ import cn.itht.dto.ResultDto;
 import cn.itht.exception.ServiceOperationException;
 import cn.itht.mybatis.criteria.Criteria;
 import cn.itht.mybatis.criteria.ExpressionFactory;
-import cn.sample.common.AliTools;
 import cn.sample.common.FacePPUtil;
 import cn.sample.common.IDCardUtil;
 import cn.sample.loan.entity.CreditApply;
@@ -39,10 +38,6 @@ public class CreditApplyService implements Serializable {
 	public ResultDto creditIdCard(CreditApplyDto applyDto) {
 		ResultDto result = new ResultDto();
 
-		applyDto.setFront(AliTools.ossPrefix + applyDto.getFront());
-		applyDto.setBack(AliTools.ossPrefix + applyDto.getBack());
-		applyDto.setFace(AliTools.ossPrefix + applyDto.getFace());
-
 		try {
 			idCardInfo = FacePPUtil.getIDCard(applyDto.getFront());
 		} catch (Exception e) {
@@ -59,9 +54,9 @@ public class CreditApplyService implements Serializable {
 		}
 		CreditApply creditApply = new CreditApply();
 		Calendar calendar = Calendar.getInstance();
-//		calendar.set(Integer.parseInt(idCardInfo.getBirthday().get("year").asText()),
-//				Integer.parseInt(idCardInfo.getBirthday().get("month").asText())-1,
-//				Integer.parseInt(idCardInfo.getBirthday().get("day").asText()));
+		calendar.set(Integer.parseInt(idCardInfo.getBirthday().get("year").asText()),
+				Integer.parseInt(idCardInfo.getBirthday().get("month").asText())-1,
+				Integer.parseInt(idCardInfo.getBirthday().get("day").asText()));
 		creditApply.setBirthday(calendar.getTime());
 		creditApply.setIdCard(idCardInfo.getId_card_number());
 		creditApply.setName(idCardInfo.getName());

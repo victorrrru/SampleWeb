@@ -15,7 +15,7 @@ import javax.annotation.Resource;
  * @since 2017-06-14 14:34:10
  */
 @RestController
-@RequestMapping(value = "/test")
+@RequestMapping(value = "/member")
 public class MemberAction {
 
 	@Resource

@@ -10,7 +10,7 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,13 +39,15 @@ public class FacePPUtil {
         multiEntity.addPart("api_key",new StringBody(Configs.FACE_APPKEY, ContentType.TEXT_PLAIN));
         multiEntity.addPart("api_secret",new StringBody(Configs.FACE_APPSecret, ContentType.TEXT_PLAIN));
 
-
         httpPost.setEntity(multiEntity.build());
         HttpResponse httpResponse = HttpClients.createDefault().execute(httpPost);
         HttpEntity httpEntity =  httpResponse.getEntity();
         String content = EntityUtils.toString(httpEntity);
         LOGGER.debug("识别身份证："+content);
-        return new ObjectMapper().readValue(content,FacePPIDCardInfo.class);
+        ObjectMapper mapper = new ObjectMapper();
+        //设置有属性不能映射成PO不报错
+        mapper.disable(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES);
+        return mapper.readValue(content,FacePPIDCardInfo.class);
     }
 
 

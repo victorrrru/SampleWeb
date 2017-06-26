@@ -35,7 +35,6 @@ public class IDCardUtil {
         return Integer.valueOf(flag.toString()) % 2 == 0 ? 1 : 0;
     }
 
-
     public static String nativePlace(String id){
         Assert.notNull(id,"身份证不能为空");
         if (id.length() > 2) {

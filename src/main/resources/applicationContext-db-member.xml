@@ -4,7 +4,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-
     <!-- iot数据源 -->
     <bean id="memberDataSource" class="com.alibaba.druid.pool.xa.DruidXADataSource" init-method="init" destroy-method="close">
         <property name="url" value="${db.member.url}" />
@@ -37,16 +36,7 @@
             </list>
         </property>
     </bean>
-
-    <!--<bean id="userDataSource" class="cn.com.iotrust.datasource.MultipleDataSource">
-    	<property name="targetDataSources">
-    		<map>
-    			<entry key="serpDataSource" value-ref="userDataSource"/>
-    		</map>
-    	</property>
-    	<property name="defaultTargetDataSource" ref="serpDataSource"/>
-    </bean>-->
-
+    <!--分布式数据源-->
     <bean id="atomikosMemberDataSource" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
         <property name="uniqueResourceName" value="member"/>
         <property name="xaDataSource" ref="memberDataSource"/>
@@ -55,7 +45,7 @@
         <property name="borrowConnectionTimeout" value="60" />
         <property name="testQuery" value = "select version()" />
     </bean>
-
+    <!--sessionFactory配置-->
     <bean id="memberSqlSessionFactory" class="cn.itht.mybatis.DialectalSqlSessionFactoryBean">
         <property name="dialectClass" value="cn.itht.mybatis.dialect.MySQLDialect" />
         <property name="dataSource" ref="atomikosMemberDataSource" />
@@ -90,16 +80,5 @@
         <property name="sqlSessionFactoryBeanName" value="memberSqlSessionFactory"/>
         <property name="basePackage" value="cn.sample.member.mapper" />
     </bean>
-
-    <!--<bean id="transactionManager"
-        class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>-->
-
-
-
-    <!-- <bean id="logAspect" class="cn.com.serp.common.log.LogAspect" /> -->
-
-
 
 </beans>

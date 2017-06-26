@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/noauthor")
 public class CreditApplyAction {
 
-
 	@Autowired
 	private CreditApplyService creditApplyService;
 

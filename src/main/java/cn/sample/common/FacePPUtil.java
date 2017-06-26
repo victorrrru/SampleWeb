@@ -50,8 +50,6 @@ public class FacePPUtil {
         return mapper.readValue(content,FacePPIDCardInfo.class);
     }
 
-
-
     public static class FacePPIDCardInfo {
         private int type;
         private String address;
@@ -136,7 +134,5 @@ public class FacePPUtil {
                     ", id_card_number='" + id_card_number + '\'' +
                     '}';
         }
-
-
     }
 }

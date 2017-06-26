@@ -10,35 +10,10 @@
            http://www.springframework.org/schema/aop
            http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
     <context:property-placeholder location="classpath*:db.properties,classpath*:config.properties"/>
-    <!--<bean id="formulaYaml" class="org.springframework.beans.factory.config.YamlPropertiesFactoryBean">-->
-    <!--<property name="resources" value="classpath*:formula.yml"/>-->
-    <!--</bean>-->
 
-    <!-- redis -->
-    <!--<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">-->
-    <!--</bean>-->
+    <!--<context:component-scan base-package="cn.sample.test">-->
+        <!--<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />-->
+    <!--</context:component-scan>-->
 
-    <!--<bean id="jedisConnectionFactory"-->
-    <!--class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">-->
-    <!--<property name="hostName" value="${redis.host}" />-->
-    <!--<property name="port" value="${redis.port}" />-->
-    <!--<property name="password" value="${redis.pwd}" />-->
-    <!--<property name="poolConfig" ref="jedisPoolConfig" />-->
-    <!--<property name="usePool" value="true" />-->
-    <!--</bean>-->
-
-    <!--<bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">-->
-    <!--<property name="connectionFactory" ref="jedisConnectionFactory" />-->
-    <!--</bean>-->
-
-    <!--&lt;!&ndash; 将session放入redis &ndash;&gt;-->
-    <!--<bean id="redisHttpSessionConfiguration"-->
-    <!--class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">-->
-    <!--<property name="maxInactiveIntervalInSeconds" value="1800" />-->
-    <!--</bean>-->
-    <!--<bean class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler"/>-->
-
-    <!--<bean id="schedulerFactoryBean"-->
-    <!--class="org.springframework.scheduling.quartz.SchedulerFactoryBean" />-->
 
 </beans>

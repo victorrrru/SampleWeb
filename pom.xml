@@ -18,7 +18,7 @@
     <dependency>
       <groupId>cn.interheart</groupId>
       <artifactId>platform.web</artifactId>
-      <version>1.1.0</version>
+      <version>1.1.0-SNAPSHOT</version>
     </dependency>
 
   </dependencies>
@@ -29,6 +29,7 @@
       <url>http://192.168.0.218:8081/nexus/content/groups/public/</url>
       <name>Maven Central</name>
     </repository>
+
     <repository>
       <id>sonatype-nexus-staging</id>
       <name>Sonatype Nexus Staging</name>

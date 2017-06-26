@@ -1,12 +1,11 @@
-package cn.sample.test.web;
+package cn.sample.member.web;
 
 import cn.itht.dto.RequestDto;
 import cn.itht.dto.ResultDto;
-import cn.sample.test.service.MemberService;
-import cn.sample.test.web.bo.MemberDto;
+import cn.sample.member.service.MemberService;
+import cn.sample.member.web.bo.MemberDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

@@ -17,7 +17,6 @@ import javax.annotation.Resource;
 
 import cn.sample.loan.web.CreditApplyAction;
 import cn.sample.loan.web.bo.CreditApplyDto;
-import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -60,9 +59,9 @@ public class CreditApplyService implements Serializable {
 		}
 		CreditApply creditApply = new CreditApply();
 		Calendar calendar = Calendar.getInstance();
-		calendar.set(Integer.parseInt(idCardInfo.getBirthday().getString("year")),
-				Integer.parseInt(idCardInfo.getBirthday().getString("month"))-1,
-				Integer.parseInt(idCardInfo.getBirthday().getString("day")));
+//		calendar.set(Integer.parseInt(idCardInfo.getBirthday().get("year").asText()),
+//				Integer.parseInt(idCardInfo.getBirthday().get("month").asText())-1,
+//				Integer.parseInt(idCardInfo.getBirthday().get("day").asText()));
 		creditApply.setBirthday(calendar.getTime());
 		creditApply.setIdCard(idCardInfo.getId_card_number());
 		creditApply.setName(idCardInfo.getName());

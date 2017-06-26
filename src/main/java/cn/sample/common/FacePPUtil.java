@@ -1,6 +1,5 @@
 package cn.sample.common;
 
-import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -10,6 +9,9 @@ import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +45,7 @@ public class FacePPUtil {
         HttpEntity httpEntity =  httpResponse.getEntity();
         String content = EntityUtils.toString(httpEntity);
         LOGGER.debug("识别身份证："+content);
-        return JSONObject.parseObject(content,FacePPIDCardInfo.class);
+        return new ObjectMapper().readValue(content,FacePPIDCardInfo.class);
     }
 
 
@@ -56,7 +58,7 @@ public class FacePPUtil {
         private String race;//民族
         private String gender;
         private String id_card_number;
-        private JSONObject birthday;
+        private JsonNode birthday;
 
         public String getRace() {
             return race;
@@ -114,6 +116,14 @@ public class FacePPUtil {
             this.id_card_number = id_card_number;
         }
 
+        public JsonNode getBirthday() {
+            return birthday;
+        }
+
+        public void setBirthday(JsonNode birthday) {
+            this.birthday = birthday;
+        }
+
         @Override
         public String toString() {
             return "FacePPIDCardInfo{" +
@@ -125,12 +135,6 @@ public class FacePPUtil {
                     '}';
         }
 
-        public JSONObject getBirthday() {
-            return birthday;
-        }
 
-        public void setBirthday(JSONObject birthday) {
-            this.birthday = birthday;
-        }
     }
 }

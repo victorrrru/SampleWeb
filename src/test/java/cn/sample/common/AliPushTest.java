@@ -1,4 +1,4 @@
-package cn.common;
+package cn.sample.common;
 
 
 

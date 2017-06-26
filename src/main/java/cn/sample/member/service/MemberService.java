@@ -1,15 +1,15 @@
-package cn.sample.test.service;
+package cn.sample.member.service;
 
 import cn.itht.dto.RequestDto;
 import cn.itht.dto.ResultDto;
 import cn.itht.mybatis.criteria.Criteria;
 import cn.itht.mybatis.criteria.ExpressionFactory;
-import cn.sample.test.entity.Member;
-import cn.sample.test.mapper.MemberMapper;
+import cn.sample.member.entity.Member;
+import cn.sample.member.mapper.MemberMapper;
 import java.io.Serializable;
 import java.util.List;
 
-import cn.sample.test.web.bo.MemberDto;
+import cn.sample.member.web.bo.MemberDto;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

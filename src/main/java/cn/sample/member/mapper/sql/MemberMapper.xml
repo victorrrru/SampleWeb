@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.sample.test.mapper.MemberMapper" >
+<mapper namespace="cn.sample.member.mapper.MemberMapper" >
 	<!-- 实体类 - 数据库映射 2017-06-14 16:51:07. -->
-	<resultMap id="BaseResultMap" type="cn.sample.test.entity.Member" >
+	<resultMap id="BaseResultMap" type="cn.sample.member.entity.Member" >
 		<id column="memid" property="memid" jdbcType="INTEGER" />
 		<result column="level_id" property="levelId" jdbcType="SMALLINT" />
 		<result column="pdl_level_id" property="pdlLevelId" jdbcType="SMALLINT" />
@@ -62,7 +62,7 @@
 	</delete>
 
 	<!-- 插入 - 全字段保存 2017-06-14 16:51:07. -->
-	<insert id="insert" parameterType="cn.sample.test.entity.Member" >
+	<insert id="insert" parameterType="cn.sample.member.entity.Member" >
 		<selectKey resultType="java.lang.Integer" keyProperty="memid" order="AFTER" >
 			SELECT LAST_INSERT_ID()
 		</selectKey>
@@ -295,7 +295,7 @@
 	</insert>
 
 	<!-- 按主键更新 - 仅更新给定实体类中非null的字段 2017-06-14 16:51:07. -->
-	<update id="updateByPrimaryKeySelective" parameterType="cn.sample.test.entity.Member" >
+	<update id="updateByPrimaryKeySelective" parameterType="cn.sample.member.entity.Member" >
 		update member
 		<set >
 			<if test="levelId != null" >
@@ -399,7 +399,7 @@
 	</update>
 
 	<!-- 按主键更新 - 全更新 2017-06-14 16:51:07. -->
-	<update id="updateByPrimaryKey" parameterType="cn.sample.test.entity.Member" >
+	<update id="updateByPrimaryKey" parameterType="cn.sample.member.entity.Member" >
 		update member
 		set level_id = #{levelId,jdbcType=SMALLINT},
 			pdl_level_id = #{pdlLevelId,jdbcType=SMALLINT},

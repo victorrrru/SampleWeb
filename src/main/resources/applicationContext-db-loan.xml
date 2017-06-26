@@ -6,8 +6,8 @@
 
 
     <!-- iot数据源 -->
-    <bean id="memberDataSource" class="com.alibaba.druid.pool.xa.DruidXADataSource" init-method="init" destroy-method="close">
-        <property name="url" value="${db.member.url}" />
+    <bean id="loanDataSource" class="com.alibaba.druid.pool.xa.DruidXADataSource" init-method="init" destroy-method="close">
+        <property name="url" value="${db.loan.url}" />
         <property name="username" value="${db.username}" />
         <property name="password" value="${db.password}" />
         <!-- 配置初始化大小、最小、最大 -->
@@ -47,24 +47,24 @@
     	<property name="defaultTargetDataSource" ref="serpDataSource"/>
     </bean>-->
 
-    <bean id="atomikosMemberDataSource" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
-        <property name="uniqueResourceName" value="member"/>
-        <property name="xaDataSource" ref="memberDataSource"/>
+    <bean id="atomikosLoanDataSource" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
+        <property name="uniqueResourceName" value="loan"/>
+        <property name="xaDataSource" ref="loanDataSource"/>
         <property name="minPoolSize" value="5" />
         <property name="maxPoolSize" value="50" />
         <property name="borrowConnectionTimeout" value="60" />
         <property name="testQuery" value = "select version()" />
     </bean>
 
-    <bean id="memberSqlSessionFactory" class="cn.itht.mybatis.DialectalSqlSessionFactoryBean">
+    <bean id="loanSqlSessionFactory" class="cn.itht.mybatis.DialectalSqlSessionFactoryBean">
         <property name="dialectClass" value="cn.itht.mybatis.dialect.MySQLDialect" />
-        <property name="dataSource" ref="atomikosMemberDataSource" />
+        <property name="dataSource" ref="atomikosLoanDataSource" />
         <property name="databaseIdProvider" ref="databaseIdProvider" />
-        <property name="typeAliasesPackage" value="cn.sample.member.entity"/>
+        <property name="typeAliasesPackage" value="cn.sample.loan.entity"/>
         <property name="configLocation" value="classpath:mybatis-config.xml" />
         <property name="mapperLocations">
             <list>
-                <value>classpath*:cn/sample/member/**/*Mapper.xml</value>
+                <value>classpath*:cn/sample/loan/**/*Mapper.xml</value>
             </list>
         </property>
     </bean>
@@ -87,8 +87,8 @@
 
     <!-- 扫描 mappers , 多个之间用逗号分割 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="sqlSessionFactoryBeanName" value="memberSqlSessionFactory"/>
-        <property name="basePackage" value="cn.sample.member.mapper" />
+        <property name="sqlSessionFactoryBeanName" value="loanSqlSessionFactory"/>
+        <property name="basePackage" value="cn.sample.loan.mapper" />
     </bean>
 
     <!--<bean id="transactionManager"

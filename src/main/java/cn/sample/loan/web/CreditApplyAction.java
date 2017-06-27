@@ -1,5 +1,6 @@
 package cn.sample.loan.web;
 
+import cn.itht.dto.RequestDto;
 import cn.itht.dto.ResultDto;
 import cn.sample.facade.LoanFacade;
 import cn.sample.loan.web.bo.CreditApplyDto;
@@ -29,10 +30,11 @@ public class CreditApplyAction {
 	 * @param applyDto
 	 * @return
 	 */
-	@RequestMapping(value = "/idCard",method = RequestMethod.POST,produces = "application/json")
-	@ResponseBody
-	public ResponseEntity<ResultDto> idCard(@RequestBody CreditApplyDto applyDto) {
-		return new ResponseEntity<ResultDto>(loanFacade.creditIdCard(applyDto), HttpStatus.OK);
+	@RequestMapping(value = "/idcard",method = RequestMethod.POST,produces = "application/json")
+	public ResponseEntity<ResultDto> idCard(@RequestBody RequestDto<CreditApplyDto> applyDto) {
+		return new ResponseEntity<ResultDto>(loanFacade.creditIdCard(applyDto.getData()), HttpStatus.OK);
 	}
+
+
 
 }

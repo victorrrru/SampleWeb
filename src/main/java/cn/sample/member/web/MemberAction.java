@@ -15,7 +15,7 @@ import javax.annotation.Resource;
  * @since 2017-06-14 14:34:10
  */
 @RestController
-@RequestMapping(value = "/member")
+@RequestMapping(value = "/noauthor/member")
 public class MemberAction {
 
 	@Resource
@@ -23,26 +23,42 @@ public class MemberAction {
 
 	/**
 	 * 检查用户是否注册接口
-	 * param：mobileno（电话号码）
+	 * param：mobileno
+	 * code: 0 :用户未注册
+	 * 		1:用户已注册
 	 * @param param
 	 * @return
 	 */
 	@RequestMapping(value = "/isRegister",method = RequestMethod.POST,produces = "application/json")
-	@ResponseBody
 	public ResponseEntity<ResultDto> isRegister(@RequestBody RequestDto<MemberDto> param) {
 		return new ResponseEntity<>(memberService.isRegisterSer(param), HttpStatus.OK);
+	}
+
+	/**
+	 * 发送短信验证码
+	 * 场景：注册，忘记密码发送短信
+	 * param:	mobile
+	 * @param param
+	 * @return
+	 */
+	@RequestMapping(value = "/sendVerifyCode",method = RequestMethod.POST,produces = "application/json")
+	public ResponseEntity<ResultDto> sendVerifyCode(@RequestBody RequestDto<MemberDto> param) {
+		return new ResponseEntity<>(memberService.sendVerifyCodeSer(param), HttpStatus.OK);
 	}
 
 	/**
 	 *用户注册接口
 	 * param：mobileno
 	 * 		loginPwd
-	 * 		inviteCode
+	 * 		verifyCode
+	 * 		inviteCode （选填）
+	 * code: 0 :注册成功
+	 * 		1:用户已注册
+	 * 		2:验证码错误，请重新输入
 	 * @param param
 	 * @return
 	 */
-	@RequestMapping(value = "/register",method = RequestMethod.POST,produces = "application/json")
-	@ResponseBody
+	@RequestMapping(value = "/userRegister",method = RequestMethod.POST,produces = "application/json")
 	public ResponseEntity<ResultDto> userRegister(@RequestBody RequestDto<MemberDto> param) {
 		return new ResponseEntity<>(memberService.userRegisterSer(param), HttpStatus.OK);
 	}
@@ -51,11 +67,13 @@ public class MemberAction {
 	 * 用户登录接口
 	 * param：mobileno
 	 * 		loginPwd
+	 * code: 0 :登录成功
+	 * 		1:密码错误
+	 * 		2:用户不存在
 	 * @param param
 	 * @return
 	 */
 	@RequestMapping(value = "/userLogin",method = RequestMethod.POST,produces = "application/json")
-	@ResponseBody
 	public ResponseEntity<ResultDto> userLogin(@RequestBody RequestDto<MemberDto> param) {
 		return new ResponseEntity<>(memberService.userLoginSer(param), HttpStatus.OK);
 	}
@@ -64,14 +82,38 @@ public class MemberAction {
 	 * 修改密码接口
 	 * 场景：忘记密码；修改密码
 	 * param：mobileno
-	 * 		loginPwd
-	 * 		updateLoginPwdType
+	 * 		verifyCode （updateLoginPwdType=0时传入）
+	 * 		loginPwd   （updateLoginPwdType=1时传入）
+	 * 		newLoginPwd
+	 * 		updateLoginPwdType（0和1）
+	 * code: 0 :忘记密码修改成功/密码修改成功
+	 * 		1:用户不存在
+	 * 		2:新的登录密码不能与交易密码相同
+	 * 		3:验证码错误，请重新输入
+	 * 		4:原密码输入错误
 	 * @param param
 	 * @return
 	 */
 	@RequestMapping(value = "/updateLoginPwd",method = RequestMethod.POST,produces = "application/json")
-	@ResponseBody
 	public ResponseEntity<ResultDto> updateLoginPwd(@RequestBody RequestDto<MemberDto> param) {
 		return new ResponseEntity<>(memberService.updateLoginPwdSer(param), HttpStatus.OK);
 	}
+
+	/**
+	 * 设置交易密码
+	 * param: mobile
+	 * 		loginPwd
+	 * 		transaction
+	 * code: 0 :交易密码设置成功
+	 * 		1:用户不存在
+	 * 		2:交易密码不能与登录密码相同
+	 * 		3:登录密码错误
+	 * @param param
+	 * @return
+	 */
+	@RequestMapping(value = "/setTransactionPwd",method = RequestMethod.POST,produces = "application/json")
+	public ResponseEntity<ResultDto> setTransactionPwd(@RequestBody RequestDto<MemberDto> param) {
+		return new ResponseEntity<>(memberService.setTransactionPwdSer(param), HttpStatus.OK);
+	}
+
 }

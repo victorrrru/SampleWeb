@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import java.net.URL;
 import java.net.URLConnection;
 
+
 /**
  * Created by think on 2017/4/5.
  */
@@ -26,6 +27,7 @@ public class FacePPUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FacePPUtil.class);
 
+
     public static FacePPIDCardInfo getIDCard(String imgUrl) throws Exception{
 
         HttpPost httpPost = new HttpPost(API_URL);
@@ -33,11 +35,23 @@ public class FacePPUtil {
         httpPost.setHeader("Accept-Language","zh-cn,zh;q=0.5");
         httpPost.setHeader("Accept-Charset","GBK,utf-8;q=0.7,*;q=0.7");
         httpPost.setHeader("Connection","keep-alive");
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.set("User-Agent","SOHUWapRebot");
+//        httpHeaders.set("Accept-Language","zh-cn,zh;q=0.5");
+//        httpHeaders.set("Accept-Charset","GBK,utf-8;q=0.7,*;q=0.7");
+//        httpHeaders.set("Connection","keep-alive");
         MultipartEntityBuilder multiEntity = MultipartEntityBuilder.create();
         URLConnection imgConn = new URL(imgUrl).openConnection();
         multiEntity.addPart("image", new InputStreamBody(imgConn.getInputStream(),"image"));
         multiEntity.addPart("api_key",new StringBody(Configs.FACE_APPKEY, ContentType.TEXT_PLAIN));
         multiEntity.addPart("api_secret",new StringBody(Configs.FACE_APPSecret, ContentType.TEXT_PLAIN));
+
+        /*Map<String,Object> map = new HashMap<>();
+        map.put("image", new InputStreamBody(imgConn.getInputStream(),"image"));
+        map.put("api_key",new StringBody(Configs.FACE_APPKEY, ContentType.TEXT_PLAIN));
+        map.put("api_secret",new StringBody(Configs.FACE_APPSecret, ContentType.TEXT_PLAIN));
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(map);*/
+
 
         httpPost.setEntity(multiEntity.build());
         HttpResponse httpResponse = HttpClients.createDefault().execute(httpPost);
@@ -48,6 +62,18 @@ public class FacePPUtil {
         //设置有属性不能映射成PO不报错
         mapper.disable(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES);
         return mapper.readValue(content,FacePPIDCardInfo.class);
+//        RestTemplate restTemplate = new RestTemplate();
+//        ObjectMapper mapper = new ObjectMapper();
+//        byte[] images = mapper.writeValueAsBytes(imgConn.getInputStream());
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("image", images);
+//        jsonObject.put("api_key",new StringBody(Configs.FACE_APPKEY, ContentType.TEXT_PLAIN));
+//        jsonObject.put("api_secret",new StringBody(Configs.FACE_APPSecret, ContentType.TEXT_PLAIN));
+//        HttpEntity entity = new HttpEntity(jsonObject.toJSONString(), httpHeaders);
+        //设置有属性不能映射成PO不报错
+//        mapper.disable(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES);
+//        String content = restTemplate.postForObject(API_URL, entity, String.class);
+//        return mapper.readValue(content,FacePPIDCardInfo.class);
     }
 
     public static class FacePPIDCardInfo {

@@ -10,6 +10,10 @@ public class MemberDto {
      */
     private String mobileno;
     /**
+     * 验证码
+     */
+    private String verifyCode;
+    /**
      * 登录密码
      */
     private String loginPwd;
@@ -25,6 +29,10 @@ public class MemberDto {
      * 修改密码类型（0：忘记密码；1：修改密码）
      */
     private Byte updateLoginPwdType;
+    /**
+     * 交易密码
+     */
+    private String transactionPwd;
 
     public String getMobileno() {
         return mobileno;
@@ -32,6 +40,14 @@ public class MemberDto {
 
     public void setMobileno(String mobileno) {
         this.mobileno = mobileno;
+    }
+
+    public String getVerifyCode() {
+        return verifyCode;
+    }
+
+    public void setVerifyCode(String verifyCode) {
+        this.verifyCode = verifyCode;
     }
 
     public String getLoginPwd() {
@@ -64,5 +80,13 @@ public class MemberDto {
 
     public void setUpdateLoginPwdType(Byte updateLoginPwdType) {
         this.updateLoginPwdType = updateLoginPwdType;
+    }
+
+    public String getTransactionPwd() {
+        return transactionPwd;
+    }
+
+    public void setTransactionPwd(String transactionPwd) {
+        this.transactionPwd = transactionPwd;
     }
 }

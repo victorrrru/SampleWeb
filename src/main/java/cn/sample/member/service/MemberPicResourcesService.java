@@ -1,6 +1,5 @@
 package cn.sample.member.service;
 
-import cn.itht.dto.ResultDto;
 import cn.sample.loan.web.bo.CreditApplyDto;
 import cn.sample.member.entity.MemberPicResources;
 import cn.sample.member.mapper.MemberPicResourcesMapper;

@@ -1,7 +1,6 @@
 package cn.sample.loan.service;
 
 
-import cn.itht.dto.ResultDto;
 import cn.itht.exception.ServiceOperationException;
 import cn.itht.mybatis.criteria.Criteria;
 import cn.itht.mybatis.criteria.ExpressionFactory;
@@ -13,7 +12,6 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.Resource;
 
 import cn.sample.loan.web.CreditApplyAction;

@@ -1,5 +1,6 @@
 package cn.sample.common;
 
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -14,7 +15,12 @@ import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
+import java.io.File;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -35,42 +41,40 @@ public class FacePPUtil {
         httpPost.setHeader("Accept-Language","zh-cn,zh;q=0.5");
         httpPost.setHeader("Accept-Charset","GBK,utf-8;q=0.7,*;q=0.7");
         httpPost.setHeader("Connection","keep-alive");
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.set("User-Agent","SOHUWapRebot");
-//        httpHeaders.set("Accept-Language","zh-cn,zh;q=0.5");
-//        httpHeaders.set("Accept-Charset","GBK,utf-8;q=0.7,*;q=0.7");
-//        httpHeaders.set("Connection","keep-alive");
+
         MultipartEntityBuilder multiEntity = MultipartEntityBuilder.create();
         URLConnection imgConn = new URL(imgUrl).openConnection();
         multiEntity.addPart("image", new InputStreamBody(imgConn.getInputStream(),"image"));
         multiEntity.addPart("api_key",new StringBody(Configs.FACE_APPKEY, ContentType.TEXT_PLAIN));
         multiEntity.addPart("api_secret",new StringBody(Configs.FACE_APPSecret, ContentType.TEXT_PLAIN));
 
-        /*Map<String,Object> map = new HashMap<>();
-        map.put("image", new InputStreamBody(imgConn.getInputStream(),"image"));
-        map.put("api_key",new StringBody(Configs.FACE_APPKEY, ContentType.TEXT_PLAIN));
-        map.put("api_secret",new StringBody(Configs.FACE_APPSecret, ContentType.TEXT_PLAIN));
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(map);*/
-
-
         httpPost.setEntity(multiEntity.build());
         HttpResponse httpResponse = HttpClients.createDefault().execute(httpPost);
-        HttpEntity httpEntity =  httpResponse.getEntity();
+        HttpEntity httpEntity = httpResponse.getEntity();
         String content = EntityUtils.toString(httpEntity);
         LOGGER.debug("识别身份证："+content);
         ObjectMapper mapper = new ObjectMapper();
         //设置有属性不能映射成PO不报错
         mapper.disable(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES);
         return mapper.readValue(content,FacePPIDCardInfo.class);
+
+
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.set("User-Agent","SOHUWapRebot");
+//        httpHeaders.set("Accept-Language","zh-cn,zh;q=0.5");
+//        httpHeaders.set("Accept-Charset","GBK,utf-8;q=0.7,*;q=0.7");
+//        httpHeaders.set("Connection","keep-alive");
+//        httpHeaders.set("Content-Type","application/json");
+//
 //        RestTemplate restTemplate = new RestTemplate();
 //        ObjectMapper mapper = new ObjectMapper();
-//        byte[] images = mapper.writeValueAsBytes(imgConn.getInputStream());
-//        JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("image", images);
-//        jsonObject.put("api_key",new StringBody(Configs.FACE_APPKEY, ContentType.TEXT_PLAIN));
-//        jsonObject.put("api_secret",new StringBody(Configs.FACE_APPSecret, ContentType.TEXT_PLAIN));
-//        HttpEntity entity = new HttpEntity(jsonObject.toJSONString(), httpHeaders);
-        //设置有属性不能映射成PO不报错
+//
+//        MultiValueMap<String,Object> map = new LinkedMultiValueMap<>();
+//        URLConnection imgConn = new URL(imgUrl).openConnection();
+//        map.add("image",new InputStreamBody(imgConn.getInputStream(),"image"));
+//        map.add("api_key",new StringBody(Configs.FACE_APPKEY, ContentType.TEXT_PLAIN));
+//        map.add("api_secret",new StringBody(Configs.FACE_APPSecret, ContentType.TEXT_PLAIN));
+//        HttpEntity<String> entity = new HttpEntity(map, httpHeaders);
 //        mapper.disable(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES);
 //        String content = restTemplate.postForObject(API_URL, entity, String.class);
 //        return mapper.readValue(content,FacePPIDCardInfo.class);

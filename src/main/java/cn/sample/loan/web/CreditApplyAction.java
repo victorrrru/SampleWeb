@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 /**
  * Spring MVC Controler - 表：credit_apply
  * @since 2017-06-23 10:44:54

@@ -66,9 +66,9 @@ public class Configs {
 
 
     //联动短信配置
-    public static String ld_url = "";
-    public static String ld_authCode = "";
-    public static String ld_spId = "";
+    public static String ld_url;
+    public static String ld_authCode;
+    public static String ld_spId;
 
 
     public static boolean jobFlag = false;
@@ -94,9 +94,6 @@ public class Configs {
             ld_url =properties.getProperty("ld_url");
             ld_authCode =properties.getProperty("ld_authCode");
             ld_spId =properties.getProperty("ld_spId");
-
-            FACE_APPKEY = properties.getProperty("face.key");
-            FACE_APPSecret = properties.getProperty("face.secret");
 
             jobFlag = Boolean.parseBoolean(properties.getProperty("job.flag"));
         } catch (IOException e) {

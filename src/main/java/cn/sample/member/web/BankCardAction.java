@@ -5,7 +5,6 @@ import cn.itht.dto.RequestDto;
 import cn.itht.dto.ResultDto;
 import cn.sample.member.service.BankCardService;
 import cn.sample.member.web.bo.BankCardDto;
-import cn.sample.member.web.bo.MemberDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +34,8 @@ public class BankCardAction {
 	 * @return
 	 */
 	@RequestMapping(value = "/getBankCardList",method = RequestMethod.POST,produces = "application/json")
-	public ResponseEntity<ResultDto> getBankCardList(@RequestBody RequestDto<BankCardDto> param) {
-		return new ResponseEntity<>(bankCardService.getBankCardListSer(param.getData()), HttpStatus.OK);
+	public ResponseEntity<ResultDto> getBankCardList(@RequestBody BankCardDto param) {
+		return new ResponseEntity<>(bankCardService.getBankCardListSer(param), HttpStatus.OK);
 	}
 
 	/**

@@ -1,6 +1,5 @@
 package cn.sample.member.service;
 
-
 import cn.itht.dto.ResultDto;
 import cn.itht.mybatis.criteria.Criteria;
 import cn.itht.mybatis.criteria.ExpressionFactory;
@@ -9,7 +8,6 @@ import cn.sample.member.mapper.BankCardMapper;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.Resource;
-
 import cn.sample.member.web.bo.BankCardDto;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;

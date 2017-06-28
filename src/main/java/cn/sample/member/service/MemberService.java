@@ -31,13 +31,12 @@ public class MemberService implements Serializable {
 	private StringRedisTemplate stringRedisTemplate;
 	/**
 	 * 用户是否注册
-	 * @param param
+	 * @param data
 	 * @return
 	 */
-	public ResultDto isRegisterSer(RequestDto<MemberDto> param) {
+	public ResultDto isRegisterSer(MemberDto data) {
 		ResultDto result = new ResultDto();
 		result.setMsg("用户是否注册");
-		MemberDto data = param.getData();
 		List<Member> members = memberMapper.selectByCriteria(Criteria.create(Member.class)
 				.add(ExpressionFactory.eq("mobileno", data.getMobileno())));
 		if (CollectionUtils.isNotEmpty(members)) {
@@ -51,13 +50,12 @@ public class MemberService implements Serializable {
 
 	/**
 	 * 发送短信验证码
-	 * @param param
+	 * @param data
 	 * @return
 	 */
-	public ResultDto sendVerifyCodeSer(RequestDto<MemberDto> param) {
+	public ResultDto sendVerifyCodeSer(MemberDto data) {
 		ResultDto result = new ResultDto();
 		result.setMsg("发送短信验证码");
-		MemberDto data = param.getData();
 		String mobile = data.getMobileno();
 		String code = (int)((Math.random() * 9 + 1) * 100000) + "";
 		String mobile_code = "{\"code\":\"" + code + "\"}";
@@ -68,13 +66,12 @@ public class MemberService implements Serializable {
 
 	/**
 	 * 用户注册
-	 * @param param
+	 * @param data
 	 * @return
 	 */
-	public ResultDto userRegisterSer(RequestDto<MemberDto> param) {
+	public ResultDto userRegisterSer(MemberDto data) {
 		ResultDto result = new ResultDto();
 		result.setMsg("用户注册");
-		MemberDto data = param.getData();
 		List<Member> members = memberMapper.selectByCriteria(Criteria.create(Member.class)
 				.add(ExpressionFactory.eq("mobileno", data.getMobileno())));
 		if (CollectionUtils.isNotEmpty(members)) {
@@ -102,13 +99,12 @@ public class MemberService implements Serializable {
 
 	/**
 	 * 用户登录
-	 * @param param
+	 * @param data
 	 * @return
 	 */
-	public ResultDto userLoginSer(RequestDto<MemberDto> param) {
+	public ResultDto userLoginSer(MemberDto data) {
 		ResultDto result = new ResultDto();
 		result.setMsg("用户登录");
-		MemberDto data = param.getData();
 		List<Member> members = memberMapper.selectByCriteria(Criteria.create(Member.class)
 				.add(ExpressionFactory.eq("mobileno", data.getMobileno())));
 		if (CollectionUtils.isNotEmpty(members)) {
@@ -129,13 +125,12 @@ public class MemberService implements Serializable {
 
 	/**
 	 * 修改登录密码
-	 * @param param
+	 * @param data
 	 * @return
 	 */
-	public ResultDto updateLoginPwdSer(RequestDto<MemberDto> param) {
+	public ResultDto updateLoginPwdSer(MemberDto data) {
 		ResultDto result = new ResultDto();
 		result.setMsg("修改登录密码");
-		MemberDto data = param.getData();
 		List<Member> members = memberMapper.selectByCriteria(Criteria.create(Member.class)
 				.add(ExpressionFactory.eq("mobileno", data.getMobileno())));
 		if (CollectionUtils.isEmpty(members)) {
@@ -195,13 +190,12 @@ public class MemberService implements Serializable {
 
 	/**
 	 * 设置交易密码
-	 * @param param
+	 * @param data
 	 * @return
 	 */
-	public ResultDto setTransactionPwdSer(RequestDto<MemberDto> param) {
+	public ResultDto setTransactionPwdSer(MemberDto data) {
 		ResultDto result = new ResultDto();
 		result.setMsg("设置交易密码");
-		MemberDto data = param.getData();
 		List<Member> members = memberMapper.selectByCriteria(Criteria.create(Member.class)
 				.add(ExpressionFactory.eq("mobileno", data.getMobileno())));
 		if (CollectionUtils.isEmpty(members)) {
@@ -224,6 +218,82 @@ public class MemberService implements Serializable {
 		} else {
 			result.setMsg("登录密码错误");
 			result.setCode("3");
+		}
+		return result;
+	}
+
+	/**
+	 * 修改交易密码
+	 * @param data
+	 * @return
+	 */
+	public ResultDto updateTransactionPwdSer(MemberDto data) {
+		ResultDto result = new ResultDto();
+		result.setMsg("修改交易密码");
+		List<Member> members = memberMapper.selectByCriteria(Criteria.create(Member.class)
+				.add(ExpressionFactory.eq("mobileno", data.getMobileno())));
+		if (CollectionUtils.isEmpty(members)) {
+			result.setMsg("用户不存在");
+			result.setCode("1");
+			return result;
+		}
+		Member memberInfo = members.get(0);
+		if (data.getTransactionPwd().equals(memberInfo.getTradingpsw())) {
+			if (data.getTransactionPwd().equals(data.getLoginPwd())) {
+				result.setMsg("新的交易密码不能与登录密码相同");
+				result.setCode("2");
+			} else {
+				Member memdto = new Member();
+				memdto.setMemid(memberInfo.getMemid());
+				memdto.setTradingpsw(data.getNewTransactionPwd());
+				memberMapper.updateByPrimaryKeySelective(memdto);
+				result.setMsg("交易密码修改成功");
+			}
+		} else {
+			result.setMsg("原交易密码错误");
+			result.setCode("3");
+		}
+		return result;
+	}
+
+	/**
+	 * 忘记交易密码
+	 * @param data
+	 * @return
+	 */
+	public ResultDto forgetTransactionPwdSer(MemberDto data) {
+		ResultDto result = new ResultDto();
+		result.setMsg("忘记交易密码");
+		List<Member> members = memberMapper.selectByCriteria(Criteria.create(Member.class)
+				.add(ExpressionFactory.eq("mobileno", data.getMobileno())));
+		if (CollectionUtils.isEmpty(members)) {
+			result.setMsg("用户不存在");
+			result.setCode("1");
+			return result;
+		}
+		Member memberInfo = members.get(0);
+		switch (data.getNextStep()) {
+			case 0:
+				if (!data.getRealName().equals(memberInfo.getRealname()) ||
+						!data.getIdCard().equals(memberInfo.getIdcardno()) ||
+								!data.getLoginPwd().equals(memberInfo.getLoginpsw())) {
+					result.setMsg("用户验证信息有误");
+					result.setCode("2");
+					return result;
+				}
+				break;
+			case 1:
+				if (data.getNewTransactionPwd().equals(memberInfo.getLoginpsw())) {
+					result.setMsg("新的交易密码不能与登录密码相同");
+					result.setCode("3");
+					return result;
+				}
+				Member memdto = new Member();
+				memdto.setMemid(memberInfo.getMemid());
+				memdto.setTradingpsw(data.getNewTransactionPwd());
+				memberMapper.updateByPrimaryKeySelective(memdto);
+				result.setMsg("交易密码修改成功");
+				break;
 		}
 		return result;
 	}

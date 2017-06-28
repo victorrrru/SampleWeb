@@ -31,7 +31,7 @@ public class MemberAction {
 	 */
 	@RequestMapping(value = "/isRegister",method = RequestMethod.POST,produces = "application/json")
 	public ResponseEntity<ResultDto> isRegister(@RequestBody RequestDto<MemberDto> param) {
-		return new ResponseEntity<>(memberService.isRegisterSer(param), HttpStatus.OK);
+		return new ResponseEntity<>(memberService.isRegisterSer(param.getData()), HttpStatus.OK);
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class MemberAction {
 	 */
 	@RequestMapping(value = "/sendVerifyCode",method = RequestMethod.POST,produces = "application/json")
 	public ResponseEntity<ResultDto> sendVerifyCode(@RequestBody RequestDto<MemberDto> param) {
-		return new ResponseEntity<>(memberService.sendVerifyCodeSer(param), HttpStatus.OK);
+		return new ResponseEntity<>(memberService.sendVerifyCodeSer(param.getData()), HttpStatus.OK);
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class MemberAction {
 	 */
 	@RequestMapping(value = "/userRegister",method = RequestMethod.POST,produces = "application/json")
 	public ResponseEntity<ResultDto> userRegister(@RequestBody RequestDto<MemberDto> param) {
-		return new ResponseEntity<>(memberService.userRegisterSer(param), HttpStatus.OK);
+		return new ResponseEntity<>(memberService.userRegisterSer(param.getData()), HttpStatus.OK);
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class MemberAction {
 	 */
 	@RequestMapping(value = "/userLogin",method = RequestMethod.POST,produces = "application/json")
 	public ResponseEntity<ResultDto> userLogin(@RequestBody RequestDto<MemberDto> param) {
-		return new ResponseEntity<>(memberService.userLoginSer(param), HttpStatus.OK);
+		return new ResponseEntity<>(memberService.userLoginSer(param.getData()), HttpStatus.OK);
 	}
 
 	/**
@@ -96,14 +96,14 @@ public class MemberAction {
 	 */
 	@RequestMapping(value = "/updateLoginPwd",method = RequestMethod.POST,produces = "application/json")
 	public ResponseEntity<ResultDto> updateLoginPwd(@RequestBody RequestDto<MemberDto> param) {
-		return new ResponseEntity<>(memberService.updateLoginPwdSer(param), HttpStatus.OK);
+		return new ResponseEntity<>(memberService.updateLoginPwdSer(param.getData()), HttpStatus.OK);
 	}
 
 	/**
 	 * 设置交易密码
 	 * param: mobile
 	 * 		loginPwd
-	 * 		transaction
+	 * 		transactionPwd
 	 * code: 0 :交易密码设置成功
 	 * 		1:用户不存在
 	 * 		2:交易密码不能与登录密码相同
@@ -113,7 +113,41 @@ public class MemberAction {
 	 */
 	@RequestMapping(value = "/setTransactionPwd",method = RequestMethod.POST,produces = "application/json")
 	public ResponseEntity<ResultDto> setTransactionPwd(@RequestBody RequestDto<MemberDto> param) {
-		return new ResponseEntity<>(memberService.setTransactionPwdSer(param), HttpStatus.OK);
+		return new ResponseEntity<>(memberService.setTransactionPwdSer(param.getData()), HttpStatus.OK);
+	}
+	/**
+	 * 修改交易密码
+	 * param: mobile
+	 * 		transactionPwd
+	 * 		newTransactionPwd
+	 * code: 0 :交易密码修改成功
+	 * 		1:用户不存在
+	 * 		2:新的交易密码不能与登录密码相同
+	 * 		3:原交易密码错误
+	 * @param param
+	 * @return
+	 */
+	@RequestMapping(value = "/updateTransactionPwd",method = RequestMethod.POST,produces = "application/json")
+	public ResponseEntity<ResultDto> updateTransactionPwd(@RequestBody RequestDto<MemberDto> param) {
+		return new ResponseEntity<>(memberService.updateTransactionPwdSer(param.getData()), HttpStatus.OK);
+	}
+	/**
+	 * 忘记交易密码(验证身份 + 修改交易密码)
+	 * param: mobile
+	 * 		realName
+	 * 		idCard
+	 * 		loginPwd
+	 * 		newTransactionPwd
+	 * code: 0 :交易密码修改成功
+	 * 		1:用户不存在
+	 * 		2:用户验证信息有误
+	 * 		3:新的交易密码不能与登录密码相同
+	 * @param param
+	 * @return
+	 */
+	@RequestMapping(value = "/forgetTransactionPwd",method = RequestMethod.POST,produces = "application/json")
+	public ResponseEntity<ResultDto> forgetTransactionPwd(@RequestBody RequestDto<MemberDto> param) {
+		return new ResponseEntity<>(memberService.forgetTransactionPwdSer(param.getData()), HttpStatus.OK);
 	}
 
 }

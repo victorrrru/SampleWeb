@@ -33,6 +33,22 @@ public class MemberDto {
      * 交易密码
      */
     private String transactionPwd;
+    /**
+     * 新交易密码
+     */
+    private String newTransactionPwd;
+    /**
+     * 忘记交易密码时下一步操作
+     */
+    private Byte nextStep;
+    /**
+     * 用户姓名
+     */
+    private String realName;
+    /**
+     * 用户身份证号码
+     */
+    private String idCard;
 
     public String getMobileno() {
         return mobileno;
@@ -88,5 +104,37 @@ public class MemberDto {
 
     public void setTransactionPwd(String transactionPwd) {
         this.transactionPwd = transactionPwd;
+    }
+
+    public String getNewTransactionPwd() {
+        return newTransactionPwd;
+    }
+
+    public void setNewTransactionPwd(String newTransactionPwd) {
+        this.newTransactionPwd = newTransactionPwd;
+    }
+
+    public Byte getNextStep() {
+        return nextStep;
+    }
+
+    public void setNextStep(Byte nextStep) {
+        this.nextStep = nextStep;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
     }
 }

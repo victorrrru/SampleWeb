@@ -32,7 +32,7 @@ public class CreditApplyAction {
 	 */
 	@RequestMapping(value = "/idcard",method = RequestMethod.POST,produces = "application/json")
 	public ResponseEntity<ResultDto> idCard(@RequestBody RequestDto<CreditApplyDto> applyDto) {
-		return new ResponseEntity<ResultDto>(loanFacade.creditIdCard(applyDto.getData()), HttpStatus.OK);
+		return new ResponseEntity<>(loanFacade.creditIdCard(applyDto.getData()), HttpStatus.OK);
 	}
 
 

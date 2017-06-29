@@ -1,6 +1,7 @@
 package cn.sample.member.service;
 
-import cn.sample.loan.web.bo.CreditApplyDto;
+import cn.sample.loan.web.bo.CreditApplyDrivingDto;
+import cn.sample.loan.web.bo.CreditApplyIdCardDto;
 import cn.sample.member.entity.MemberPicResources;
 import cn.sample.member.mapper.MemberPicResourcesMapper;
 import java.io.Serializable;
@@ -21,12 +22,19 @@ public class MemberPicResourcesService implements Serializable {
 
 	/**
 	 * 将身份证图片url存入数据库
-	 * @param applyDto
+	 * @param data
 	 * @param creditId
 	 */
-	public void insertIdCard(CreditApplyDto applyDto,Integer creditId) {
-		insertMemberPic(applyDto.getMemId(), (byte)1, creditId, (byte)2, applyDto.getFront());
-		insertMemberPic(applyDto.getMemId(), (byte)2, creditId, (byte)2, applyDto.getBack());
+	public void insertIdCard(CreditApplyIdCardDto data, Integer creditId) {
+		insertMemberPic(data.getMemId(), (byte)1, creditId, (byte)2, data.getFront());
+		insertMemberPic(data.getMemId(), (byte)2, creditId, (byte)2, data.getBack());
+	}
+
+	public void insertDrivingLisence(CreditApplyDrivingDto data, Integer creditId) {
+		insertMemberPic(data.getMemId(), (byte)5, creditId, (byte)2, data.getDfront());
+		insertMemberPic(data.getMemId(), (byte)6, creditId, (byte)2, data.getCfront());
+		insertMemberPic(data.getMemId(), (byte)7, creditId, (byte)2, data.getDback());
+		insertMemberPic(data.getMemId(), (byte)8, creditId, (byte)2, data.getCback());
 	}
 
 	private void insertMemberPic(Integer memberId, byte pictype, Integer objectId, byte objectType,String url) {

@@ -74,9 +74,9 @@ public class FacePPUtil {
 //        map.add("image",new InputStreamBody(imgConn.getInputStream(),"image"));
 //        map.add("api_key",new StringBody(Configs.FACE_APPKEY, ContentType.TEXT_PLAIN));
 //        map.add("api_secret",new StringBody(Configs.FACE_APPSecret, ContentType.TEXT_PLAIN));
-//        HttpEntity<String> entity = new HttpEntity(map, httpHeaders);
+//        HttpEntity httpEntity = new HttpEntity(map, httpHeaders);
 //        mapper.disable(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES);
-//        String content = restTemplate.postForObject(API_URL, entity, String.class);
+//        String content = restTemplate.postForObject(API_URL, httpEntity, String.class);
 //        return mapper.readValue(content,FacePPIDCardInfo.class);
     }
 

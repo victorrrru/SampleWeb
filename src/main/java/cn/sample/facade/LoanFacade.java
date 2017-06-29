@@ -2,7 +2,8 @@ package cn.sample.facade;
 
 import cn.itht.dto.ResultDto;
 import cn.sample.loan.service.CreditApplyService;
-import cn.sample.loan.web.bo.CreditApplyDto;
+import cn.sample.loan.web.bo.CreditApplyDrivingDto;
+import cn.sample.loan.web.bo.CreditApplyIdCardDto;
 import cn.sample.member.service.MemberPicResourcesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,12 +21,26 @@ public class LoanFacade {
     @Autowired
     private CreditApplyService creditApplyService;
 
-    public ResultDto creditIdCard(CreditApplyDto applyDto) {
+    /**
+     * 授信传入身份证
+     * @param data
+     * @return
+     */
+    public ResultDto creditIdCard(CreditApplyIdCardDto data) {
         ResultDto result = new ResultDto();
         result.setMsg("授信传入身份证");
-        HashMap<String, String> map = creditApplyService.creditIdCard(applyDto);
-        memberPicResourcesService.insertIdCard(applyDto, Integer.valueOf(map.get("creditId")));
+        HashMap<String, String> map = creditApplyService.creditIdCard(data);
+        memberPicResourcesService.insertIdCard(data, Integer.valueOf(map.get("creditId")));
         result.setData(map);
         return result;
     }
+
+    public ResultDto creditDriving(CreditApplyDrivingDto data) {
+        ResultDto result = new ResultDto();
+        result.setMsg("授信传入驾驶证");
+        Integer creditApplyId = creditApplyService.insertDrivingInfo(data);
+        memberPicResourcesService.insertDrivingLisence(data, creditApplyId);
+        return result;
+    }
+
 }

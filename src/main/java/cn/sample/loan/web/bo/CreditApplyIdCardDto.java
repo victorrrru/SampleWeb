@@ -3,7 +3,7 @@ package cn.sample.loan.web.bo;
 /**
  * Created by victorrrr on 2017/6/23.
  */
-public class CreditApplyDto {
+public class CreditApplyIdCardDto {
 
     /**
      * 身份证正面

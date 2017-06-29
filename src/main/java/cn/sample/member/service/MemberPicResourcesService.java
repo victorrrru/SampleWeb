@@ -30,11 +30,15 @@ public class MemberPicResourcesService implements Serializable {
 		insertMemberPic(data.getMemId(), (byte)2, creditId, (byte)2, data.getBack());
 	}
 
-	public void insertDrivingLisence(CreditApplyDrivingDto data, Integer creditId) {
-		insertMemberPic(data.getMemId(), (byte)5, creditId, (byte)2, data.getDfront());
-		insertMemberPic(data.getMemId(), (byte)6, creditId, (byte)2, data.getCfront());
-		insertMemberPic(data.getMemId(), (byte)7, creditId, (byte)2, data.getDback());
-		insertMemberPic(data.getMemId(), (byte)8, creditId, (byte)2, data.getCback());
+	/**
+	 * 将驾驶证图片url存入数据库
+	 * @param data
+	 */
+	public void insertDrivingLisence(CreditApplyDrivingDto data) {
+		insertMemberPic(data.getMemId(), (byte)5, data.getCreditApplyId(), (byte)2, data.getDfront());
+		insertMemberPic(data.getMemId(), (byte)6, data.getCreditApplyId(), (byte)2, data.getCfront());
+		insertMemberPic(data.getMemId(), (byte)7, data.getCreditApplyId(), (byte)2, data.getDback());
+		insertMemberPic(data.getMemId(), (byte)8, data.getCreditApplyId(), (byte)2, data.getCback());
 	}
 
 	private void insertMemberPic(Integer memberId, byte pictype, Integer objectId, byte objectType,String url) {

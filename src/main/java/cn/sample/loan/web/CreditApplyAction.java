@@ -38,6 +38,11 @@ public class CreditApplyAction {
 		return new ResponseEntity<>(loanFacade.creditIdCard(param.getData()), HttpStatus.OK);
 	}
 
+	/**
+	 * 场景：授信传入驾驶证(征信第三步)
+	 * @param param
+	 * @return
+	 */
 	@RequestMapping(value = "/driving",method = RequestMethod.POST,produces = "application/json")
 	public ResponseEntity<ResultDto> driving(@RequestBody RequestDto<CreditApplyDrivingDto> param) {
 		return new ResponseEntity<>(loanFacade.creditDriving(param.getData()), HttpStatus.OK);

@@ -1,7 +1,6 @@
 package cn.sample.loan.web.bo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -26,6 +25,9 @@ public class CreditApplyDrivingDto {
 
     @NotNull(message = "会员id不能为空")
     private Integer memId = null;
+
+    @NotNull(message = "授信id不能为空")
+    private Integer creditApplyId;
 
     /** car_number -- 车牌号 */
     private String carNumber;
@@ -99,6 +101,14 @@ public class CreditApplyDrivingDto {
 
     public void setMemId(Integer memId) {
         this.memId = memId;
+    }
+
+    public Integer getCreditApplyId() {
+        return creditApplyId;
+    }
+
+    public void setCreditApplyId(Integer creditApplyId) {
+        this.creditApplyId = creditApplyId;
     }
 
     public String getCarNumber() {

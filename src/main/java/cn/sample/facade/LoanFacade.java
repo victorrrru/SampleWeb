@@ -29,17 +29,22 @@ public class LoanFacade {
     public ResultDto creditIdCard(CreditApplyIdCardDto data) {
         ResultDto result = new ResultDto();
         result.setMsg("授信传入身份证");
-        HashMap<String, String> map = creditApplyService.creditIdCard(data);
+        HashMap<String, String> map = creditApplyService.insertIdCardInfo(data);
         memberPicResourcesService.insertIdCard(data, Integer.valueOf(map.get("creditId")));
         result.setData(map);
         return result;
     }
 
+    /**
+     * 授信传入驾驶证
+     * @param data
+     * @return
+     */
     public ResultDto creditDriving(CreditApplyDrivingDto data) {
         ResultDto result = new ResultDto();
         result.setMsg("授信传入驾驶证");
-        Integer creditApplyId = creditApplyService.insertDrivingInfo(data);
-        memberPicResourcesService.insertDrivingLisence(data, creditApplyId);
+        creditApplyService.updateDrivingInfo(data);
+        memberPicResourcesService.insertDrivingLisence(data);
         return result;
     }
 

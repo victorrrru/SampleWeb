@@ -46,7 +46,7 @@ public class CreditApplyService implements Serializable {
 	 * @param data
 	 * @return
 	 */
-	public HashMap<String, String> creditIdCard(CreditApplyIdCardDto data) {
+	public HashMap<String, String> insertIdCardInfo(CreditApplyIdCardDto data) {
 		try {
 			idCardInfo = FacePPUtil.getIDCard(data.getFront());
 		} catch (Exception e) {
@@ -87,7 +87,12 @@ public class CreditApplyService implements Serializable {
 		return map;
 	}
 
-	public Integer insertDrivingInfo(CreditApplyDrivingDto data) {
+	/**
+	 * 将车辆信息存入数据库
+	 * @param data
+	 * @return
+	 */
+	public void updateDrivingInfo(CreditApplyDrivingDto data) {
 		List<CreditApply> creditApplies = creditApplyMapper.selectByCriteria(Criteria.create(CreditApply.class)
 				.add(ExpressionFactory.eq("memberId", data.getMemId())));
 		if (CollectionUtils.isEmpty(creditApplies)) {
@@ -98,9 +103,11 @@ public class CreditApplyService implements Serializable {
 			throw new ServiceOperationException("当前不在上传驾驶证步骤");
 		}
 		BeanUtils.copyProperties(data, creditApply);
-		creditApplyMapper.insertSelective(creditApply);
-		return creditApply.getCaId();
+		creditApply.setApplyStep((byte)CreditApplyStep.PERSONAL_INFO.getStep());
+		creditApplyMapper.updateByPrimaryKeySelective(creditApply);
 	}
+
+
 
 
 }

@@ -6,6 +6,7 @@ import cn.sample.facade.LoanFacade;
 import cn.sample.loan.service.CreditApplyService;
 import cn.sample.loan.web.bo.CreditApplyIdCardDto;
 import cn.sample.loan.web.bo.CreditApplyDrivingDto;
+import cn.sample.loan.web.bo.CreditApplyPersonalDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +22,6 @@ public class CreditApplyAction {
 
 	@Autowired
 	private LoanFacade loanFacade;
-	@Autowired
-	private CreditApplyService creditApplyService;
-
 	/**
 	 * 场景：授信传入身份证
 	 * 征信第一步的步骤：
@@ -48,6 +46,24 @@ public class CreditApplyAction {
 		return new ResponseEntity<>(loanFacade.creditDriving(param.getData()), HttpStatus.OK);
 	}
 
+	/**
+	 * 场景：授信传入个人信息(征信第四步)
+	 * @param param
+	 * @return
+	 */
+	@RequestMapping(value = "/personalInfo",method = RequestMethod.POST,produces = "application/json")
+	public ResponseEntity<ResultDto> personalInfo(@RequestBody RequestDto<CreditApplyPersonalDto> param) {
+		return new ResponseEntity<>(loanFacade.creditPersonalInfo(param.getData()), HttpStatus.OK);
+	}
 
+	/**
+	 * 场景：查询授信状态
+	 * @param param
+	 * @return
+	 */
+	@RequestMapping(value = "/applyStatus",method = RequestMethod.POST,produces = "application/json")
+	public ResponseEntity<ResultDto> applyStatus(@RequestBody RequestDto<Integer> param) {
+		return new ResponseEntity<>(loanFacade.creditApplyStatus(param.getData()), HttpStatus.OK);
+	}
 
 }

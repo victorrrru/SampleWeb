@@ -1,10 +1,13 @@
 package cn.sample.member.service;
 
+import cn.itht.mybatis.criteria.Criteria;
+import cn.itht.mybatis.criteria.ExpressionFactory;
 import cn.sample.loan.web.bo.CreditApplyDrivingDto;
 import cn.sample.loan.web.bo.CreditApplyIdCardDto;
 import cn.sample.member.entity.MemberPicResources;
 import cn.sample.member.mapper.MemberPicResourcesMapper;
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -39,6 +42,11 @@ public class MemberPicResourcesService implements Serializable {
 		insertMemberPic(data.getMemId(), (byte)6, data.getCreditApplyId(), (byte)2, data.getCfront());
 		insertMemberPic(data.getMemId(), (byte)7, data.getCreditApplyId(), (byte)2, data.getDback());
 		insertMemberPic(data.getMemId(), (byte)8, data.getCreditApplyId(), (byte)2, data.getCback());
+	}
+
+	public void getIdCard(Integer memberId) {
+		List<MemberPicResources> memberPicResourcesList = memberPicResourcesMapper.selectByCriteria(Criteria.create(MemberPicResources.class)
+				.add(ExpressionFactory.eq("memberId", memberId)));
 	}
 
 	private void insertMemberPic(Integer memberId, byte pictype, Integer objectId, byte objectType,String url) {

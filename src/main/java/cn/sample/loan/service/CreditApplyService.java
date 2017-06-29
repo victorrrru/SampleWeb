@@ -21,6 +21,9 @@ import javax.annotation.Resource;
 import cn.sample.loan.web.CreditApplyAction;
 import cn.sample.loan.web.bo.CreditApplyIdCardDto;
 import cn.sample.loan.web.bo.CreditApplyDrivingDto;
+import cn.sample.loan.web.bo.CreditApplyPersonalDto;
+import cn.sample.member.entity.Member;
+import cn.sample.member.web.bo.MemberDto;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -46,7 +49,7 @@ public class CreditApplyService implements Serializable {
 	 * @param data
 	 * @return
 	 */
-	public HashMap<String, String> insertIdCardInfo(CreditApplyIdCardDto data) {
+	public CreditApply insertIdCardInfo(CreditApplyIdCardDto data) {
 		try {
 			idCardInfo = FacePPUtil.getIDCard(data.getFront());
 		} catch (Exception e) {
@@ -78,13 +81,7 @@ public class CreditApplyService implements Serializable {
 		creditApply.setMemberId(data.getMemId());
 		creditApply.setNativePlace(IDCardUtil.nativePlace(idCardInfo.getId_card_number()));
 		creditApplyMapper.insertSelective(creditApply);
-
-		HashMap<String, String> map = new HashMap<>();
-		map.put("creditId", creditApply.getCaId().toString());
-		map.put("idCard",creditApply.getIdCard());
-		map.put("address",creditApply.getAddress());
-		map.put("name",creditApply.getName());
-		return map;
+		return creditApply;
 	}
 
 	/**
@@ -107,7 +104,25 @@ public class CreditApplyService implements Serializable {
 		creditApplyMapper.updateByPrimaryKeySelective(creditApply);
 	}
 
-
+	/**
+	 * 将个人信息存入数据库
+	 * @param data
+	 * @return
+	 */
+	public void updatePersonalInfo(CreditApplyPersonalDto data) {
+		List<CreditApply> creditApplies = creditApplyMapper.selectByCriteria(Criteria.create(CreditApply.class)
+				.add(ExpressionFactory.eq("memberId", data.getMemId())));
+		if (CollectionUtils.isEmpty(creditApplies)) {
+			throw new ServiceOperationException("请先上传身份证");
+		}
+		CreditApply creditApply = creditApplies.get(0);
+		if (creditApply.getApplyStep() != CreditApplyStep.CAR.getStep()) {
+			throw new ServiceOperationException("当前不在填写个人信息步骤");
+		}
+		BeanUtils.copyProperties(data, creditApply);
+		creditApply.setApplyStep((byte)CreditApplyStep.PERSONAL_INFO.getStep());
+		creditApplyMapper.updateByPrimaryKeySelective(creditApply);
+	}
 
 
 }

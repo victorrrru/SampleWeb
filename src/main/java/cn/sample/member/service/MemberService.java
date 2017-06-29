@@ -6,16 +6,23 @@ import cn.itht.mybatis.criteria.Criteria;
 import cn.itht.mybatis.criteria.ExpressionFactory;
 import cn.sample.common.AliTools;
 import cn.sample.common.Configs;
+import cn.sample.loan.entity.CreditApply;
+import cn.sample.loan.web.bo.CreditApplyPersonalDto;
 import cn.sample.member.entity.Member;
 import cn.sample.member.mapper.MemberMapper;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.sample.member.web.bo.MemberDto;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+
+import javax.xml.crypto.Data;
 
 /**
  * 业务实现层 - 表：member
@@ -296,6 +303,43 @@ public class MemberService implements Serializable {
 				break;
 		}
 		return result;
+	}
+
+	/**
+	 * 上传身份证时把数据存入member表
+	 * @param creditApply
+	 */
+	public void updateMemIdCardInfo(CreditApply creditApply){
+		List<Member> members = memberMapper.selectByCriteria(Criteria.create(Member.class)
+				.add(ExpressionFactory.eq("memid", creditApply.getMemberId())));
+		if (CollectionUtils.isNotEmpty(members)) {
+			Member member = members.get(0);
+			member.setRealname(creditApply.getName());
+			member.setIdcardno(creditApply.getIdCard());
+			member.setSex(creditApply.getSex());
+			member.setNation(creditApply.getNation());
+			member.setBirthday(creditApply.getBirthday());
+			member.setOriginPalce(creditApply.getAddress());
+			memberMapper.updateByPrimaryKeySelective(member);
+		}
+	}
+
+	/**
+	 * 上传个人信息时把数据存入member表
+	 * @param data
+	 * @param education
+	 */
+	public void updateMemInfo(CreditApplyPersonalDto data,String education) {
+		List<Member> members = memberMapper.selectByCriteria(Criteria.create(Member.class)
+				.add(ExpressionFactory.eq("memId", data.getMemId())));
+		if (CollectionUtils.isNotEmpty(members)) {
+			Member member = members.get(0);
+			member.setLeveleducation(education);
+			member.setUnitname(data.getCompanyName());
+			member.setMaritalstatus(data.getMarriage().byteValue());
+			memberMapper.updateByPrimaryKeySelective(member);
+		}
+
 	}
 
 

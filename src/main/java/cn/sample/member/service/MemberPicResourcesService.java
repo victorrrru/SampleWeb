@@ -45,8 +45,8 @@ public class MemberPicResourcesService implements Serializable {
 	}
 
 	public void getIdCard(Integer memberId) {
-		List<MemberPicResources> memberPicResourcesList = memberPicResourcesMapper.selectByCriteria(Criteria.create(MemberPicResources.class)
-				.add(ExpressionFactory.eq("memberId", memberId)));
+		List<MemberPicResources> memberPicResourcesList = memberPicResourcesMapper.selectByCriteria(Criteria
+				.create(MemberPicResources.class).add(ExpressionFactory.eq("memberId", memberId)));
 	}
 
 	private void insertMemberPic(Integer memberId, byte pictype, Integer objectId, byte objectType,String url) {

@@ -41,6 +41,7 @@ public class LoanFacade {
         CreditApply creditApply = creditApplyService.insertIdCardInfo(data);
         memberService.updateMemIdCardInfo(creditApply);
         memberPicResourcesService.insertIdCard(data, creditApply.getCaId());
+        result.setData(creditApply);
         return result;
     }
 
@@ -66,7 +67,6 @@ public class LoanFacade {
         ResultDto result = new ResultDto();
         result.setMsg("授信传入个人信息");
         creditApplyService.updatePersonalInfo(data);
-        commDataConfigService.getEduType(data.getEducation());
         memberService.updateMemInfo(data,commDataConfigService.getEduType(data.getEducation()));
         return result;
     }

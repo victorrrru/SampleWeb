@@ -36,13 +36,13 @@ public class CreditApplyDrivingDto {
     private String carBrand;
 
     /** car_lisence -- 驾照登记地址 */
-    private String carLisenceAddress;
+    private String carLisence;
 
     /** car_property -- 车辆性质（非运营0运营1） */
     private Byte carProperty;
 
     /** car_driven -- 驾龄 */
-    private Byte carDrivenTime;
+    private Byte carDriven;
 
     /** car_owner -- 车辆所有人 */
     private String carOwner;
@@ -127,12 +127,12 @@ public class CreditApplyDrivingDto {
         this.carBrand = carBrand;
     }
 
-    public String getCarLisenceAddress() {
-        return carLisenceAddress;
+    public String getCarLisence() {
+        return carLisence;
     }
 
-    public void setCarLisenceAddress(String carLisenceAddress) {
-        this.carLisenceAddress = carLisenceAddress;
+    public void setCarLisence(String carLisence) {
+        this.carLisence = carLisence;
     }
 
     public Byte getCarProperty() {
@@ -143,12 +143,12 @@ public class CreditApplyDrivingDto {
         this.carProperty = carProperty;
     }
 
-    public Byte getCarDrivenTime() {
-        return carDrivenTime;
+    public Byte getCarDriven() {
+        return carDriven;
     }
 
-    public void setCarDrivenTime(Byte carDrivenTime) {
-        this.carDrivenTime = carDrivenTime;
+    public void setCarDriven(Byte carDriven) {
+        this.carDriven = carDriven;
     }
 
     public String getCarOwner() {

@@ -62,7 +62,7 @@ public class CreditApplyPersonalDto {
     private Byte familyAmount;
 
     /** member_id -- 用户id */
-    private Integer memId;
+    private Integer memberId;
     /** buy_type -- 买房类型0按揭1全款 */
     private Byte buyType;
 
@@ -262,12 +262,12 @@ public class CreditApplyPersonalDto {
         this.familyAmount = familyAmount;
     }
 
-    public Integer getMemId() {
-        return memId;
+    public Integer getMemberId() {
+        return memberId;
     }
 
-    public void setMemId(Integer memId) {
-        this.memId = memId;
+    public void setMemberId(Integer memberId) {
+        this.memberId = memberId;
     }
 
     public Byte getBuyType() {

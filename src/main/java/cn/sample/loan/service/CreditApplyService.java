@@ -1,7 +1,6 @@
 package cn.sample.loan.service;
 
 
-import cn.itht.dto.ResultDto;
 import cn.itht.exception.ServiceOperationException;
 import cn.itht.mybatis.criteria.Criteria;
 import cn.itht.mybatis.criteria.ExpressionFactory;
@@ -14,7 +13,6 @@ import cn.sample.loan.mapper.CreditApplyMapper;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import javax.annotation.Resource;
 
@@ -22,8 +20,6 @@ import cn.sample.loan.web.CreditApplyAction;
 import cn.sample.loan.web.bo.CreditApplyIdCardDto;
 import cn.sample.loan.web.bo.CreditApplyDrivingDto;
 import cn.sample.loan.web.bo.CreditApplyPersonalDto;
-import cn.sample.member.entity.Member;
-import cn.sample.member.web.bo.MemberDto;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -111,16 +107,16 @@ public class CreditApplyService implements Serializable {
 	 */
 	public void updatePersonalInfo(CreditApplyPersonalDto data) {
 		List<CreditApply> creditApplies = creditApplyMapper.selectByCriteria(Criteria.create(CreditApply.class)
-				.add(ExpressionFactory.eq("memberId", data.getMemId())));
+				.add(ExpressionFactory.eq("memberId", data.getMemberId())));
 		if (CollectionUtils.isEmpty(creditApplies)) {
 			throw new ServiceOperationException("请先上传身份证");
 		}
 		CreditApply creditApply = creditApplies.get(0);
-		if (creditApply.getApplyStep() != CreditApplyStep.CAR.getStep()) {
+		if (creditApply.getApplyStep() != CreditApplyStep.PERSONAL_INFO.getStep()) {
 			throw new ServiceOperationException("当前不在填写个人信息步骤");
 		}
 		BeanUtils.copyProperties(data, creditApply);
-		creditApply.setApplyStep((byte)CreditApplyStep.PERSONAL_INFO.getStep());
+		creditApply.setApplyStep((byte)CreditApplyStep.AUTHORISE.getStep());
 		creditApplyMapper.updateByPrimaryKeySelective(creditApply);
 	}
 

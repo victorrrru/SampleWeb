@@ -331,7 +331,7 @@ public class MemberService implements Serializable {
 	 */
 	public void updateMemInfo(CreditApplyPersonalDto data,String education) {
 		List<Member> members = memberMapper.selectByCriteria(Criteria.create(Member.class)
-				.add(ExpressionFactory.eq("memId", data.getMemId())));
+				.add(ExpressionFactory.eq("memId", data.getMemberId())));
 		if (CollectionUtils.isNotEmpty(members)) {
 			Member member = members.get(0);
 			member.setLeveleducation(education);

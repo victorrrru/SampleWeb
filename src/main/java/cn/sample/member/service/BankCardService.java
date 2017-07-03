@@ -35,9 +35,9 @@ public class BankCardService implements Serializable {
 	public ResultDto addBankCardSer(BankCardDto data) {
 		ResultDto result = new ResultDto();
 		result.setMsg("添加银行卡");
-		List<BankCard> bankCard = bankCardMapper.selectByCriteria(Criteria.create(BankCard.class)
+		List<BankCard> bankCards = bankCardMapper.selectByCriteria(Criteria.create(BankCard.class)
 				.add(ExpressionFactory.eq("bankcardno", data.getBankCardno())));
-		if (CollectionUtils.isNotEmpty(bankCard)) {
+		if (CollectionUtils.isNotEmpty(bankCards)) {
 			result.setMsg("您要添加的银行卡已存在，请重新添加");
 			result.setCode("1");
 			return result;

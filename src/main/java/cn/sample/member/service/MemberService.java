@@ -63,11 +63,10 @@ public class MemberService implements Serializable {
 	public ResultDto sendVerifyCodeSer(MemberDto data) {
 		ResultDto result = new ResultDto();
 		result.setMsg("发送短信验证码");
-		String mobile = data.getMobileno();
 		String code = (int)((Math.random() * 9 + 1) * 100000) + "";
 		String mobile_code = "{\"code\":\"" + code + "\"}";
-		AliTools.sendMsg(mobile, mobile_code, Configs.registcode);
-		stringRedisTemplate.opsForValue().set(mobile, code);
+		AliTools.sendMsg(data.getMobileno(), mobile_code, Configs.registcode);
+		stringRedisTemplate.opsForValue().set(data.getMobileno(), code);
 		return result;
 	}
 
@@ -115,10 +114,9 @@ public class MemberService implements Serializable {
 		List<Member> members = memberMapper.selectByCriteria(Criteria.create(Member.class)
 				.add(ExpressionFactory.eq("mobileno", data.getMobileno())));
 		if (CollectionUtils.isNotEmpty(members)) {
-			Member member = members.get(0);
-			if (data.getLoginPwd().equals(member.getLoginpsw())) {
+			if (data.getLoginPwd().equals(members.get(0).getLoginpsw())) {
 				result.setMsg("登录成功");
-				result.setData(member);
+				result.setData(members.get(0));
 			} else {
 				result.setMsg("密码错误");
 				result.setCode("1");
@@ -145,14 +143,13 @@ public class MemberService implements Serializable {
 			result.setCode("1");
 			return result;
 		}
-		Member memberInfo = members.get(0);
-		if (data.getNewLoginPwd().equals(memberInfo.getTradingpsw())) {
+		if (data.getNewLoginPwd().equals(members.get(0).getTradingpsw())) {
 			result.setMsg("新的登录密码不能与交易密码相同");
 			result.setCode("2");
 			return result;
 		}
 		Member memdto = new Member();
-		memdto.setMemid(memberInfo.getMemid());
+		memdto.setMemid(members.get(0).getMemid());
 		memdto.setLoginpsw(data.getNewLoginPwd());
 //		if (data.getUpdateLoginPwdType() == 0) {
 //			//验证码
@@ -183,7 +180,7 @@ public class MemberService implements Serializable {
 				}
 				break;
 			case 1:
-				if (data.getLoginPwd().equals(memberInfo.getLoginpsw())) {
+				if (data.getLoginPwd().equals(members.get(0).getLoginpsw())) {
 					memberMapper.updateByPrimaryKeySelective(memdto);
 					result.setMsg("密码修改成功");
 				} else {
@@ -210,14 +207,13 @@ public class MemberService implements Serializable {
 			result.setCode("1");
 			return result;
 		}
-		Member memberInfo = members.get(0);
-		if (data.getLoginPwd().equals(memberInfo.getLoginpsw())) {
+		if (data.getLoginPwd().equals(members.get(0).getLoginpsw())) {
 			if (data.getTransactionPwd().equals(data.getLoginPwd())) {
 				result.setMsg("交易密码不能与登录密码相同");
 				result.setCode("2");
 			} else {
 				Member memdto = new Member();
-				memdto.setMemid(memberInfo.getMemid());
+				memdto.setMemid(members.get(0).getMemid());
 				memdto.setTradingpsw(data.getTransactionPwd());
 				memberMapper.updateByPrimaryKeySelective(memdto);
 				result.setMsg("交易密码设置成功");
@@ -244,14 +240,13 @@ public class MemberService implements Serializable {
 			result.setCode("1");
 			return result;
 		}
-		Member memberInfo = members.get(0);
-		if (data.getTransactionPwd().equals(memberInfo.getTradingpsw())) {
+		if (data.getTransactionPwd().equals(members.get(0).getTradingpsw())) {
 			if (data.getTransactionPwd().equals(data.getLoginPwd())) {
 				result.setMsg("新的交易密码不能与登录密码相同");
 				result.setCode("2");
 			} else {
 				Member memdto = new Member();
-				memdto.setMemid(memberInfo.getMemid());
+				memdto.setMemid(members.get(0).getMemid());
 				memdto.setTradingpsw(data.getNewTransactionPwd());
 				memberMapper.updateByPrimaryKeySelective(memdto);
 				result.setMsg("交易密码修改成功");
@@ -278,25 +273,24 @@ public class MemberService implements Serializable {
 			result.setCode("1");
 			return result;
 		}
-		Member memberInfo = members.get(0);
 		switch (data.getNextStep()) {
 			case 0:
-				if (!data.getRealName().equals(memberInfo.getRealname()) ||
-						!data.getIdCard().equals(memberInfo.getIdcardno()) ||
-								!data.getLoginPwd().equals(memberInfo.getLoginpsw())) {
+				if (!data.getRealName().equals(members.get(0).getRealname()) ||
+						!data.getIdCard().equals(members.get(0).getIdcardno()) ||
+								!data.getLoginPwd().equals(members.get(0).getLoginpsw())) {
 					result.setMsg("用户验证信息有误");
 					result.setCode("2");
 					return result;
 				}
 				break;
 			case 1:
-				if (data.getNewTransactionPwd().equals(memberInfo.getLoginpsw())) {
+				if (data.getNewTransactionPwd().equals(members.get(0).getLoginpsw())) {
 					result.setMsg("新的交易密码不能与登录密码相同");
 					result.setCode("3");
 					return result;
 				}
 				Member memdto = new Member();
-				memdto.setMemid(memberInfo.getMemid());
+				memdto.setMemid(members.get(0).getMemid());
 				memdto.setTradingpsw(data.getNewTransactionPwd());
 				memberMapper.updateByPrimaryKeySelective(memdto);
 				result.setMsg("交易密码修改成功");

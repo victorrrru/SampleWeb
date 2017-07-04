@@ -1,7 +1,9 @@
 package cn.sample.member.service;
 
+import cn.itht.exception.ServiceOperationException;
 import cn.itht.mybatis.criteria.Criteria;
 import cn.itht.mybatis.criteria.ExpressionFactory;
+import cn.itht.mybatis.criteria.Sort;
 import cn.sample.loan.web.bo.CreditApplyDrivingDto;
 import cn.sample.loan.web.bo.CreditApplyIdCardDto;
 import cn.sample.member.entity.MemberPicResources;
@@ -10,6 +12,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -44,9 +47,40 @@ public class MemberPicResourcesService implements Serializable {
 		insertMemberPic(data.getMemId(), (byte)8, data.getCreditApplyId(), (byte)2, data.getCback());
 	}
 
-	public void getIdCard(Integer memberId) {
-		List<MemberPicResources> memberPicResourcesList = memberPicResourcesMapper.selectByCriteria(Criteria
-				.create(MemberPicResources.class).add(ExpressionFactory.eq("memberId", memberId)));
+	/**
+	 * 获取身份证图片
+	 * @param memberId
+	 */
+	public void getIdCardPic(Integer memberId) {
+		List<MemberPicResources> pic = selectPic(memberId, 1,2);
+		if (CollectionUtils.isEmpty(pic)) {
+			throw new ServiceOperationException("未找到身份证图片");
+		}
+		//todo 返回数据
+	}
+
+	/**
+	 * 获得行驶证图片
+	 * @param memberId
+	 */
+	public void getDrivingLisencePic(Integer memberId) {
+		List<MemberPicResources> pic = selectPic(memberId, 6, 7);
+		if (CollectionUtils.isEmpty(pic)) {
+			throw new ServiceOperationException("未找到行驶证图片");
+		}
+		//todo 返回数据
+	}
+
+	/**
+	 * 获得人脸图片
+	 * @param memberId
+	 */
+	public void getFacePic(Integer memberId) {
+		List<MemberPicResources> pic = selectPic(memberId, 3);
+		if (CollectionUtils.isEmpty(pic)) {
+			throw new ServiceOperationException("未找到人脸图片");
+		}
+		//todo 返回数据
 	}
 
 	private void insertMemberPic(Integer memberId, byte pictype, Integer objectId, byte objectType,String url) {
@@ -57,5 +91,13 @@ public class MemberPicResourcesService implements Serializable {
 		memberPicResources.setObjectType(objectType);
 		memberPicResources.setUrl(url);
 		memberPicResourcesMapper.insertSelective(memberPicResources);
+	}
+
+	private List<MemberPicResources> selectPic(Integer memberId, Object... values) {
+		return memberPicResourcesMapper.selectByCriteria(Criteria.create(MemberPicResources.class)
+				.add(ExpressionFactory.eq("memberId", memberId))
+				.add(ExpressionFactory.in("pictype", values))
+				.add(ExpressionFactory.eq("objectType", 2))
+				.sort(Sort.asc("memberId")));
 	}
 }

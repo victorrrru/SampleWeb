@@ -120,5 +120,10 @@ public class CreditApplyService implements Serializable {
 		creditApplyMapper.updateByPrimaryKeySelective(creditApply);
 	}
 
+	public List<CreditApply> findAll(Integer memberId) {
+		return creditApplyMapper.selectByCriteria(Criteria.create(CreditApply.class)
+				.add(ExpressionFactory.eq("memberId", memberId)));
+	}
+
 
 }

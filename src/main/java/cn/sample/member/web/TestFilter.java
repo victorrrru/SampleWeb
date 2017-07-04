@@ -21,5 +21,4 @@ public class TestFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
         System.out.println("TestFilter init");
     }
-
 }

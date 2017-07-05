@@ -2,7 +2,7 @@ package cn.sample.common;
 
 
 
-import cn.itht.aliyun.AliPush;
+
 import org.junit.Test;
 
 /**
@@ -16,7 +16,7 @@ public class AliPushTest {
     @Test
     public  void  TestAllPush() throws Exception
     {
-        AliPush.pushGlobaMsg("dev",2,"群组","群组","群组");
+       // AliPush.pushGlobaMsg("dev",2,"群组","群组","群组");
     }
 
     /**
@@ -25,6 +25,6 @@ public class AliPushTest {
     @Test
     public  void  TestSinglePush() throws Exception
     {
-        AliPush.pushMsg("88_dev",3,"贷款通知__title","summary_______","body____________________");
+      //  AliPush.pushMsg("88_dev",3,"贷款通知__title","summary_______","body____________________");
     }
 }

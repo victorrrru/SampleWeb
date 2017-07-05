@@ -1,28 +1,21 @@
 package cn.sample.member.service;
 
-import cn.itht.dto.RequestDto;
 import cn.itht.dto.ResultDto;
 import cn.itht.mybatis.criteria.Criteria;
 import cn.itht.mybatis.criteria.ExpressionFactory;
-import cn.sample.common.AliTools;
 import cn.sample.common.Configs;
 import cn.sample.loan.entity.CreditApply;
 import cn.sample.loan.web.bo.CreditApplyPersonalDto;
 import cn.sample.member.entity.Member;
 import cn.sample.member.mapper.MemberMapper;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-
 import cn.sample.member.web.bo.MemberDto;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.time.DateUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.xml.crypto.Data;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * 业务实现层 - 表：member
@@ -65,7 +58,7 @@ public class MemberService implements Serializable {
 		result.setMsg("发送短信验证码");
 		String code = (int)((Math.random() * 9 + 1) * 100000) + "";
 		String mobile_code = "{\"code\":\"" + code + "\"}";
-		AliTools.sendMsg(data.getMobileno(), mobile_code, Configs.registcode);
+		//AliTools.sendMsg(data.getMobileno(), mobile_code, Configs.registcode);
 		stringRedisTemplate.opsForValue().set(data.getMobileno(), code);
 		return result;
 	}

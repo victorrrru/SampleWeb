@@ -15,34 +15,36 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 /**
- * Created by Administrator on 2017/7/5.
+ * Created by victorrrr
+ * Date : 2017/7/5 19:32
  */
 @Configuration
-@MapperScan(basePackages = {"cn.sample.loan.mapper"}, sqlSessionTemplateRef = "loanSqlSessionTemplate")
-public class LoanConfig {
-    @Bean(name = "loanDataSource")
+@MapperScan(basePackages = {"cn.sample.config.mapper"}, sqlSessionTemplateRef = "configSqlSessionTemplate")
+public class CommDataConfigConfig {
+    @Bean(name = "configDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.loan")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean(name = "loanSqlSessionFactory")
-    public SqlSessionFactory sqlSessionFactory(@Qualifier("loanDataSource") DataSource dataSource) throws Exception {
+    @Bean(name = "configSqlSessionFactory")
+    public SqlSessionFactory sqlSessionFactory(@Qualifier("configDataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:cn/sample/loan/mapper/**/*.xml"));
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:cn/sample/config/mapper/**/*.xml"));
         return bean.getObject();
     }
 
-    @Bean(name = "loanTransactionManager")
-    public DataSourceTransactionManager transactionManager(@Qualifier("loanDataSource") DataSource dataSource) {
+    @Bean(name = "configTransactionManager")
+    public DataSourceTransactionManager transactionManager(@Qualifier("configDataSource") DataSource dataSource) {
         DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource);
         manager.setDefaultTimeout(300);
         return manager;
     }
 
-    @Bean(name = "loanSqlSessionTemplate")
-    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("loanSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
+    @Bean(name = "configSqlSessionTemplate")
+    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("configSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
+
 }

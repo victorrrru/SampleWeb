@@ -118,7 +118,7 @@
 	</update>
 
 	<!-- 按 Criteria 条件查询, 支持分页 2017-06-29 15:30:53. -->
-	<select id="selectByCriteria" resultMap="BaseResultMap" parameterType="Criteria" >
+	<select id="selectByCriteria" resultMap="BaseResultMap" parameterType="cn.itht.mybatis.criteria.Criteria" >
 		select
 		<include refid="Base_Column_List" />
 		from comm_data_config

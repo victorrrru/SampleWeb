@@ -922,7 +922,7 @@
 	</update>
 
 	<!-- 按 Criteria 条件查询, 支持分页 2017-06-23 10:44:54. -->
-	<select id="selectByCriteria" resultMap="BaseResultMap" parameterType="Criteria" >
+	<select id="selectByCriteria" resultMap="BaseResultMap" parameterType="cn.itht.mybatis.criteria.Criteria" >
 		select
 		<include refid="Base_Column_List" />
 		from credit_apply

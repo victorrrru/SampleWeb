@@ -153,7 +153,7 @@
 	</update>
 
 	<!-- 按 Criteria 条件查询, 支持分页 2017-06-26 16:05:50. -->
-	<select id="selectByCriteria" resultMap="BaseResultMap" parameterType="Criteria" >
+	<select id="selectByCriteria" resultMap="BaseResultMap" parameterType="cn.itht.mybatis.criteria.Criteria" >
 		select
 		<include refid="Base_Column_List" />
 		from member_pic_resources

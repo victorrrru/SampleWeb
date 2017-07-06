@@ -171,34 +171,4 @@
     </resources>
   </build>
 
-  <profiles>
-    <profile>
-      <id>dev</id>
-      <properties>
-        <log.path>/tomcat8/logs/houhe</log.path>
-        <db.host>192.168.0.181:3306</db.host>
-        <db.user>root</db.user>
-        <db.pwd>123456</db.pwd>
-        <redis.host>192.168.0.181</redis.host>
-        <redis.port>6379</redis.port>
-        <redis.pwd>hulianxin666</redis.pwd>
-      </properties>
-    </profile>
-    <profile>
-      <id>local</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <properties>
-        <db.host>192.168.0.181:3306</db.host>
-        <db.user>root</db.user>
-        <db.pwd>123456</db.pwd>
-        <log.path>logs/houhe</log.path>
-        <redis.host>192.168.0.181</redis.host>
-        <redis.port>6379</redis.port>
-        <redis.pwd>hulianxin666</redis.pwd>
-      </properties>
-    </profile>
-  </profiles>
-
 </project>

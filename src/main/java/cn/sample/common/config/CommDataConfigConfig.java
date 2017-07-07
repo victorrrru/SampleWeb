@@ -19,7 +19,7 @@ import javax.sql.DataSource;
  * Date : 2017/7/5 19:32
  */
 @Configuration
-@MapperScan(basePackages = {"cn.sample.config.mapper"}, sqlSessionTemplateRef = "configSqlSessionTemplate")
+@MapperScan(basePackages = {"cn.sample.domain.config.mapper"}, sqlSessionTemplateRef = "configSqlSessionTemplate")
 public class CommDataConfigConfig {
     @Bean(name = "configDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.config")
@@ -31,7 +31,7 @@ public class CommDataConfigConfig {
     public SqlSessionFactory sqlSessionFactory(@Qualifier("configDataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:cn/sample/config/mapper/**/*.xml"));
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:cn/sample/domain/config/mapper/**/*.xml"));
         return bean.getObject();
     }
 

@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 @SpringBootApplication(exclude = {
 		DataSourceAutoConfiguration.class
 })
-@MapperScan("cn.sample")
+@MapperScan("cn.sample.domain")
 public class SampleApplication {
 
 	public static void main(String[] args) {

@@ -18,7 +18,7 @@ import javax.sql.DataSource;
  * Created by Administrator on 2017/7/5.
  */
 @Configuration
-@MapperScan(basePackages = {"cn.sample.loan.mapper"}, sqlSessionTemplateRef = "loanSqlSessionTemplate")
+@MapperScan(basePackages = {"cn.sample.domain.loan.mapper"}, sqlSessionTemplateRef = "loanSqlSessionTemplate")
 public class LoanConfig {
     @Bean(name = "loanDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.loan")
@@ -30,7 +30,7 @@ public class LoanConfig {
     public SqlSessionFactory sqlSessionFactory(@Qualifier("loanDataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:cn/sample/loan/mapper/**/*.xml"));
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:cn/sample/domain/loan/mapper/**/*.xml"));
         return bean.getObject();
     }
 

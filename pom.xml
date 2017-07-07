@@ -16,17 +16,14 @@
   <properties>
     <argLine>-Dfile.encoding=UTF-8</argLine>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <springfox-version>2.5.0</springfox-version>
-    <quartz.version>2.2.3</quartz.version>
-    <druid.version>1.0.29</druid.version>
-    <hibernate.validator.version>5.4.1.Final</hibernate.validator.version>
+     <druid.version>1.0.29</druid.version>
 
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>cn.interheart</groupId>
-      <artifactId>platform.core</artifactId>
+      <artifactId>platform.web</artifactId>
       <version>1.1.0-SNAPSHOT</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/commons-collections/commons-collections -->
@@ -37,26 +34,6 @@
     </dependency>
 
     <dependency>
-      <groupId>cn.interheart</groupId>
-      <artifactId>platform.mybatis</artifactId>
-      <version>1.1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-validator</artifactId>
-      <version>${hibernate.validator.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter</artifactId>
-    </dependency>
-
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
-      </dependency>
-
-    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
@@ -64,7 +41,7 @@
     <dependency>
       <groupId>org.mybatis.spring.boot</groupId>
       <artifactId>mybatis-spring-boot-starter</artifactId>
-      <version>1.1.1</version>
+      <version>1.3.0</version>
     </dependency>
     <dependency>
       <groupId>mysql</groupId>
@@ -81,9 +58,9 @@
       <version>1.2.29</version>
     </dependency>
     <dependency>
-      <groupId>com.alibaba</groupId>
-      <artifactId>druid</artifactId>
-      <version>${druid.version}</version>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-redis</artifactId>
+      <version>1.4.7.RELEASE</version>
     </dependency>
   </dependencies>
 
@@ -103,22 +80,15 @@
       <url>http://192.168.0.218:8081/nexus/content/groups/public/</url>
       <name>Maven Central</name>
     </repository>
-    <repository>
-      <id>maven-aliyun</id>
-      <name>maven-aliyun</name>
-      <url>http://maven.aliyun.com/nexus/content/groups/public</url>
-    </repository>
 
   </repositories>
   <!-- 设定插件仓库 -->
   <pluginRepositories>
-
     <pluginRepository>
       <id>maven-aliyun</id>
       <name>maven-aliyun</name>
       <url>http://maven.aliyun.com/nexus/content/groups/public</url>
     </pluginRepository>
-
   </pluginRepositories>
   <build>
     <finalName>sample.web-${project.version}</finalName>

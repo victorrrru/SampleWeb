@@ -19,7 +19,7 @@ import javax.sql.DataSource;
  * Created by Administrator on 2017/7/5.
  */
 @Configuration
-@MapperScan(basePackages = {"cn.sample.member.mapper"}, sqlSessionTemplateRef = "memberSqlSessionTemplate")
+@MapperScan(basePackages = {"cn.sample.domain.member.mapper"}, sqlSessionTemplateRef = "memberSqlSessionTemplate")
 @Primary
 public class MemberConfig {
     @Bean(name = "memberDataSource")
@@ -33,8 +33,8 @@ public class MemberConfig {
     public SqlSessionFactory sqlSessionFactory(@Qualifier("memberDataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:cn/sample/member/**/*Mapper.xml"));
-        bean.setTypeAliasesPackage("cn.sample.member.entity");
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:cn/sample/domain/member/**/*Mapper.xml"));
+        bean.setTypeAliasesPackage("cn.sample.domain.member.entity");
         return bean.getObject();
     }
 

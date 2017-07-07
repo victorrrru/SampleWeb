@@ -2,21 +2,19 @@ package cn.sample.facade;
 
 import cn.itht.dto.ResultDto;
 import cn.sample.common.CreditApplyStep;
-import cn.sample.config.service.CommDataConfigService;
-import cn.sample.loan.entity.CreditApply;
-import cn.sample.loan.service.CreditApplyService;
-import cn.sample.loan.web.bo.CreditApplyDrivingDto;
-import cn.sample.loan.web.bo.CreditApplyIdCardDto;
-import cn.sample.loan.web.bo.CreditApplyInfoDto;
-import cn.sample.loan.web.bo.CreditApplyPersonalDto;
-import cn.sample.member.entity.Member;
-import cn.sample.member.service.MemberPicResourcesService;
-import cn.sample.member.service.MemberService;
+import cn.sample.domain.config.service.CommDataConfigService;
+import cn.sample.domain.loan.entity.CreditApply;
+import cn.sample.domain.loan.service.CreditApplyService;
+import cn.sample.webapi.loan.bo.CreditApplyDrivingDto;
+import cn.sample.webapi.loan.bo.CreditApplyIdCardDto;
+import cn.sample.webapi.loan.bo.CreditApplyInfoDto;
+import cn.sample.webapi.loan.bo.CreditApplyPersonalDto;
+import cn.sample.domain.member.service.MemberPicResourcesService;
+import cn.sample.domain.member.service.MemberService;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**

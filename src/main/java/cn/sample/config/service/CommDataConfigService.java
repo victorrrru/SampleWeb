@@ -3,6 +3,7 @@ package cn.sample.config.service;
 import cn.itht.mybatis.criteria.Criteria;
 import cn.itht.mybatis.criteria.ExpressionFactory;
 import cn.sample.config.entity.CommDataConfig;
+import cn.sample.config.entity.CommDataConfigExample;
 import cn.sample.config.mapper.CommDataConfigMapper;
 import java.io.Serializable;
 import java.util.List;
@@ -20,10 +21,11 @@ public class CommDataConfigService implements Serializable {
 	@Resource
 	private CommDataConfigMapper commDataConfigMapper;
 
-	public String getEduType(Integer data) {
-		List<CommDataConfig> menuTypes = commDataConfigMapper.selectByCriteria(Criteria.create(CommDataConfig.class)
-				.add(ExpressionFactory.eq("value", data)));
-		return menuTypes.get(0).getMenuItem();
+	public String getEduType(Short data) {
+		CommDataConfigExample example = new CommDataConfigExample();
+		example.createCriteria().andValueEqualTo(data);
+		List<CommDataConfig> commDataConfigList = commDataConfigMapper.selectByExample(example);
+		return commDataConfigList.get(0).getMenuItem();
 	}
 
 }

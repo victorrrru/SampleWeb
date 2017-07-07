@@ -22,7 +22,7 @@ import javax.sql.DataSource;
 @MapperScan(basePackages = {"cn.sample.config.mapper"}, sqlSessionTemplateRef = "configSqlSessionTemplate")
 public class CommDataConfigConfig {
     @Bean(name = "configDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.loan")
+    @ConfigurationProperties(prefix = "spring.datasource.config")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }

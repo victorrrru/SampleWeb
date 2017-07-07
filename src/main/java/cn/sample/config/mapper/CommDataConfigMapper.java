@@ -1,56 +1,30 @@
 package cn.sample.config.mapper;
 
-import cn.itht.mybatis.criteria.Criteria;
 import cn.sample.config.entity.CommDataConfig;
-import org.springframework.stereotype.Repository;
-
+import cn.sample.config.entity.CommDataConfigExample;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
-/**
- * MyBatis Mapper 接口 - 表：comm_data_config
- * @since 2017-06-29 15:30:53
- */
-@Repository
 public interface CommDataConfigMapper {
-	/**
-	 * 按主键删除
-	 * @since 2017-06-29 15:30:53
-	 */
-	int deleteByPrimaryKey(Short menuId);
+    long countByExample(CommDataConfigExample example);
 
-	/**
-	 * 插入 - 全字段保存
-	 * @since 2017-06-29 15:30:53
-	 */
-	int insert(CommDataConfig record);
+    int deleteByExample(CommDataConfigExample example);
 
-	/**
-	 * 插入 - 仅保存给定实体类中非null的字段
-	 * @since 2017-06-29 15:30:53
-	 */
-	int insertSelective(CommDataConfig record);
+    int deleteByPrimaryKey(Short menuId);
 
-	/**
-	 * 按主键查询
-	 * @since 2017-06-29 15:30:53
-	 */
-	CommDataConfig selectByPrimaryKey(Short menuId);
+    int insert(CommDataConfig record);
 
-	/**
-	 * 按主键更新 - 仅更新给定实体类中非null的字段
-	 * @since 2017-06-29 15:30:53
-	 */
-	int updateByPrimaryKeySelective(CommDataConfig record);
+    int insertSelective(CommDataConfig record);
 
-	/**
-	 * 按主键更新 - 全更新
-	 * @since 2017-06-29 15:30:53
-	 */
-	int updateByPrimaryKey(CommDataConfig record);
+    List<CommDataConfig> selectByExample(CommDataConfigExample example);
 
-	/**
-	 * 按 Criteria 条件查询, 支持分页
-	 * @since 2017-06-29 15:30:53
-	 */
-	List<CommDataConfig> selectByCriteria(Criteria<CommDataConfig> criteria);
+    CommDataConfig selectByPrimaryKey(Short menuId);
+
+    int updateByExampleSelective(@Param("record") CommDataConfig record, @Param("example") CommDataConfigExample example);
+
+    int updateByExample(@Param("record") CommDataConfig record, @Param("example") CommDataConfigExample example);
+
+    int updateByPrimaryKeySelective(CommDataConfig record);
+
+    int updateByPrimaryKey(CommDataConfig record);
 }

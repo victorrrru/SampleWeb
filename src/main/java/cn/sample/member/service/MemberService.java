@@ -6,7 +6,10 @@ import cn.itht.mybatis.criteria.ExpressionFactory;
 import cn.sample.common.Configs;
 import cn.sample.loan.entity.CreditApply;
 import cn.sample.loan.web.bo.CreditApplyPersonalDto;
+import cn.sample.member.entity.BankCard;
+import cn.sample.member.entity.BankCardExample;
 import cn.sample.member.entity.Member;
+import cn.sample.member.entity.MemberExample;
 import cn.sample.member.mapper.MemberMapper;
 import cn.sample.member.web.bo.MemberDto;
 import org.apache.commons.collections.CollectionUtils;
@@ -37,9 +40,10 @@ public class MemberService implements Serializable {
 	public ResultDto isRegisterSer(MemberDto data) {
 		ResultDto result = new ResultDto();
 		result.setMsg("用户是否注册");
-		List<Member> members = memberMapper.selectByCriteria(Criteria.create(Member.class)
-				.add(ExpressionFactory.eq("mobileno", data.getMobileno())));
-		if (CollectionUtils.isNotEmpty(members)) {
+		MemberExample example = new MemberExample();
+		example.createCriteria().andMobilenoEqualTo(data.getMobileno());
+		List<Member> memberList = memberMapper.selectByExample(example);
+		if (CollectionUtils.isNotEmpty(memberList)) {
 			result.setMsg("用户已注册");
 			result.setCode("1");
 		} else {
@@ -71,9 +75,10 @@ public class MemberService implements Serializable {
 	public ResultDto userRegisterSer(MemberDto data) {
 		ResultDto result = new ResultDto();
 		result.setMsg("用户注册");
-		List<Member> members = memberMapper.selectByCriteria(Criteria.create(Member.class)
-				.add(ExpressionFactory.eq("mobileno", data.getMobileno())));
-		if (CollectionUtils.isNotEmpty(members)) {
+		MemberExample example = new MemberExample();
+		example.createCriteria().andMobilenoEqualTo(data.getMobileno());
+		List<Member> memberList = memberMapper.selectByExample(example);
+		if (CollectionUtils.isNotEmpty(memberList)) {
 			result.setMsg("用户已注册");
 			result.setCode("1");
 			return result;
@@ -104,12 +109,13 @@ public class MemberService implements Serializable {
 	public ResultDto userLoginSer(MemberDto data) {
 		ResultDto result = new ResultDto();
 		result.setMsg("用户登录");
-		List<Member> members = memberMapper.selectByCriteria(Criteria.create(Member.class)
-				.add(ExpressionFactory.eq("mobileno", data.getMobileno())));
-		if (CollectionUtils.isNotEmpty(members)) {
-			if (data.getLoginPwd().equals(members.get(0).getLoginpsw())) {
+		MemberExample example = new MemberExample();
+		example.createCriteria().andMobilenoEqualTo(data.getMobileno());
+		List<Member> memberList = memberMapper.selectByExample(example);
+		if (CollectionUtils.isNotEmpty(memberList)) {
+			if (data.getLoginPwd().equals(memberList.get(0).getLoginpsw())) {
 				result.setMsg("登录成功");
-				result.setData(members.get(0));
+				result.setData(memberList.get(0));
 			} else {
 				result.setMsg("密码错误");
 				result.setCode("1");
@@ -129,20 +135,21 @@ public class MemberService implements Serializable {
 	public ResultDto updateLoginPwdSer(MemberDto data) {
 		ResultDto result = new ResultDto();
 		result.setMsg("修改登录密码");
-		List<Member> members = memberMapper.selectByCriteria(Criteria.create(Member.class)
-				.add(ExpressionFactory.eq("mobileno", data.getMobileno())));
-		if (CollectionUtils.isEmpty(members)) {
+		MemberExample example = new MemberExample();
+		example.createCriteria().andMobilenoEqualTo(data.getMobileno());
+		List<Member> memberList = memberMapper.selectByExample(example);
+		if (CollectionUtils.isEmpty(memberList)) {
 			result.setMsg("用户不存在");
 			result.setCode("1");
 			return result;
 		}
-		if (data.getNewLoginPwd().equals(members.get(0).getTradingpsw())) {
+		if (data.getNewLoginPwd().equals(memberList.get(0).getTradingpsw())) {
 			result.setMsg("新的登录密码不能与交易密码相同");
 			result.setCode("2");
 			return result;
 		}
 		Member memdto = new Member();
-		memdto.setMemid(members.get(0).getMemid());
+		memdto.setMemid(memberList.get(0).getMemid());
 		memdto.setLoginpsw(data.getNewLoginPwd());
 //		if (data.getUpdateLoginPwdType() == 0) {
 //			//验证码
@@ -173,7 +180,7 @@ public class MemberService implements Serializable {
 				}
 				break;
 			case 1:
-				if (data.getLoginPwd().equals(members.get(0).getLoginpsw())) {
+				if (data.getLoginPwd().equals(memberList.get(0).getLoginpsw())) {
 					memberMapper.updateByPrimaryKeySelective(memdto);
 					result.setMsg("密码修改成功");
 				} else {
@@ -193,20 +200,21 @@ public class MemberService implements Serializable {
 	public ResultDto setTransactionPwdSer(MemberDto data) {
 		ResultDto result = new ResultDto();
 		result.setMsg("设置交易密码");
-		List<Member> members = memberMapper.selectByCriteria(Criteria.create(Member.class)
-				.add(ExpressionFactory.eq("mobileno", data.getMobileno())));
-		if (CollectionUtils.isEmpty(members)) {
+		MemberExample example = new MemberExample();
+		example.createCriteria().andMobilenoEqualTo(data.getMobileno());
+		List<Member> memberList = memberMapper.selectByExample(example);
+		if (CollectionUtils.isEmpty(memberList)) {
 			result.setMsg("用户不存在");
 			result.setCode("1");
 			return result;
 		}
-		if (data.getLoginPwd().equals(members.get(0).getLoginpsw())) {
+		if (data.getLoginPwd().equals(memberList.get(0).getLoginpsw())) {
 			if (data.getTransactionPwd().equals(data.getLoginPwd())) {
 				result.setMsg("交易密码不能与登录密码相同");
 				result.setCode("2");
 			} else {
 				Member memdto = new Member();
-				memdto.setMemid(members.get(0).getMemid());
+				memdto.setMemid(memberList.get(0).getMemid());
 				memdto.setTradingpsw(data.getTransactionPwd());
 				memberMapper.updateByPrimaryKeySelective(memdto);
 				result.setMsg("交易密码设置成功");
@@ -226,20 +234,21 @@ public class MemberService implements Serializable {
 	public ResultDto updateTransactionPwdSer(MemberDto data) {
 		ResultDto result = new ResultDto();
 		result.setMsg("修改交易密码");
-		List<Member> members = memberMapper.selectByCriteria(Criteria.create(Member.class)
-				.add(ExpressionFactory.eq("mobileno", data.getMobileno())));
-		if (CollectionUtils.isEmpty(members)) {
+		MemberExample example = new MemberExample();
+		example.createCriteria().andMobilenoEqualTo(data.getMobileno());
+		List<Member> memberList = memberMapper.selectByExample(example);
+		if (CollectionUtils.isEmpty(memberList)) {
 			result.setMsg("用户不存在");
 			result.setCode("1");
 			return result;
 		}
-		if (data.getTransactionPwd().equals(members.get(0).getTradingpsw())) {
+		if (data.getTransactionPwd().equals(memberList.get(0).getTradingpsw())) {
 			if (data.getTransactionPwd().equals(data.getLoginPwd())) {
 				result.setMsg("新的交易密码不能与登录密码相同");
 				result.setCode("2");
 			} else {
 				Member memdto = new Member();
-				memdto.setMemid(members.get(0).getMemid());
+				memdto.setMemid(memberList.get(0).getMemid());
 				memdto.setTradingpsw(data.getNewTransactionPwd());
 				memberMapper.updateByPrimaryKeySelective(memdto);
 				result.setMsg("交易密码修改成功");
@@ -259,31 +268,32 @@ public class MemberService implements Serializable {
 	public ResultDto forgetTransactionPwdSer(MemberDto data) {
 		ResultDto result = new ResultDto();
 		result.setMsg("忘记交易密码");
-		List<Member> members = memberMapper.selectByCriteria(Criteria.create(Member.class)
-				.add(ExpressionFactory.eq("mobileno", data.getMobileno())));
-		if (CollectionUtils.isEmpty(members)) {
+		MemberExample example = new MemberExample();
+		example.createCriteria().andMobilenoEqualTo(data.getMobileno());
+		List<Member> memberList = memberMapper.selectByExample(example);
+		if (CollectionUtils.isEmpty(memberList)) {
 			result.setMsg("用户不存在");
 			result.setCode("1");
 			return result;
 		}
 		switch (data.getNextStep()) {
 			case 0:
-				if (!data.getRealName().equals(members.get(0).getRealname()) ||
-						!data.getIdCard().equals(members.get(0).getIdcardno()) ||
-								!data.getLoginPwd().equals(members.get(0).getLoginpsw())) {
+				if (!data.getRealName().equals(memberList.get(0).getRealname()) ||
+						!data.getIdCard().equals(memberList.get(0).getIdcardno()) ||
+								!data.getLoginPwd().equals(memberList.get(0).getLoginpsw())) {
 					result.setMsg("用户验证信息有误");
 					result.setCode("2");
 					return result;
 				}
 				break;
 			case 1:
-				if (data.getNewTransactionPwd().equals(members.get(0).getLoginpsw())) {
+				if (data.getNewTransactionPwd().equals(memberList.get(0).getLoginpsw())) {
 					result.setMsg("新的交易密码不能与登录密码相同");
 					result.setCode("3");
 					return result;
 				}
 				Member memdto = new Member();
-				memdto.setMemid(members.get(0).getMemid());
+				memdto.setMemid(memberList.get(0).getMemid());
 				memdto.setTradingpsw(data.getNewTransactionPwd());
 				memberMapper.updateByPrimaryKeySelective(memdto);
 				result.setMsg("交易密码修改成功");
@@ -297,10 +307,11 @@ public class MemberService implements Serializable {
 	 * @param creditApply
 	 */
 	public void updateMemIdCardInfo(CreditApply creditApply){
-		List<Member> members = memberMapper.selectByCriteria(Criteria.create(Member.class)
-				.add(ExpressionFactory.eq("memid", creditApply.getMemberId())));
-		if (CollectionUtils.isNotEmpty(members)) {
-			Member member = members.get(0);
+		MemberExample example = new MemberExample();
+		example.createCriteria().andMemidEqualTo(creditApply.getMemberId());
+		List<Member> memberList = memberMapper.selectByExample(example);
+		if (CollectionUtils.isNotEmpty(memberList)) {
+			Member member = memberList.get(0);
 			member.setRealname(creditApply.getName());
 			member.setIdcardno(creditApply.getIdCard());
 			member.setSex(creditApply.getSex());
@@ -317,10 +328,11 @@ public class MemberService implements Serializable {
 	 * @param education
 	 */
 	public void updateMemInfo(CreditApplyPersonalDto data,String education) {
-		List<Member> members = memberMapper.selectByCriteria(Criteria.create(Member.class)
-				.add(ExpressionFactory.eq("memId", data.getMemberId())));
-		if (CollectionUtils.isNotEmpty(members)) {
-			Member member = members.get(0);
+		MemberExample example = new MemberExample();
+		example.createCriteria().andMemidEqualTo(data.getMemberId());
+		List<Member> memberList = memberMapper.selectByExample(example);
+		if (CollectionUtils.isNotEmpty(memberList)) {
+			Member member = memberList.get(0);
 			member.setLeveleducation(education);
 			member.setUnitname(data.getCompanyName());
 			member.setMaritalstatus(data.getMarriage().byteValue());

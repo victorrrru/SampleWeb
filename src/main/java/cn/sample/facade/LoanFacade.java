@@ -71,7 +71,7 @@ public class LoanFacade {
         ResultDto result = new ResultDto();
         result.setMsg("授信传入个人信息");
         creditApplyService.updatePersonalInfo(data);
-        memberService.updateMemInfo(data,commDataConfigService.getEduType(data.getEducation()));
+        memberService.updateMemInfo(data,commDataConfigService.getEduType(data.getEducation().shortValue()));
         return result;
     }
 

@@ -4,6 +4,7 @@ import cn.itht.dto.ResultDto;
 import cn.itht.mybatis.criteria.Criteria;
 import cn.itht.mybatis.criteria.ExpressionFactory;
 import cn.sample.member.entity.BankCard;
+import cn.sample.member.entity.BankCardExample;
 import cn.sample.member.mapper.BankCardMapper;
 import java.io.Serializable;
 import java.util.List;
@@ -26,18 +27,20 @@ public class BankCardService implements Serializable {
 	public ResultDto getBankCardListSer(BankCardDto data) {
 		ResultDto result = new ResultDto();
 		result.setMsg("查询银行卡列表");
-		List<BankCard> bankCards = bankCardMapper.selectByCriteria(Criteria.create(BankCard.class)
-				.add(ExpressionFactory.eq("memberId", data.getMemberId())));
-		result.setData(bankCards);
+		BankCardExample example = new BankCardExample();
+		example.createCriteria().andMemberIdEqualTo(data.getMemberId());
+		List<BankCard> bankCardList = bankCardMapper.selectByExample(example);
+		result.setData(bankCardList);
 		return result;
 	}
 
 	public ResultDto addBankCardSer(BankCardDto data) {
 		ResultDto result = new ResultDto();
 		result.setMsg("添加银行卡");
-		List<BankCard> bankCards = bankCardMapper.selectByCriteria(Criteria.create(BankCard.class)
-				.add(ExpressionFactory.eq("bankcardno", data.getBankCardno())));
-		if (CollectionUtils.isNotEmpty(bankCards)) {
+		BankCardExample example = new BankCardExample();
+		example.createCriteria().andBankcardnoEqualTo(data.getBankCardno());
+		List<BankCard> bankCardList = bankCardMapper.selectByExample(example);
+		if (CollectionUtils.isNotEmpty(bankCardList)) {
 			result.setMsg("您要添加的银行卡已存在，请重新添加");
 			result.setCode("1");
 			return result;

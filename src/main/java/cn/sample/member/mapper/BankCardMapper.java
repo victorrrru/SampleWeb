@@ -1,56 +1,30 @@
 package cn.sample.member.mapper;
 
-import cn.itht.mybatis.criteria.Criteria;
 import cn.sample.member.entity.BankCard;
-import org.springframework.stereotype.Repository;
-
+import cn.sample.member.entity.BankCardExample;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
-/**
- * MyBatis Mapper 接口 - 表：bank_card
- * @since 2017-06-28 14:11:54
- */
-@Repository
 public interface BankCardMapper {
-	/**
-	 * 按主键删除
-	 * @since 2017-06-28 14:11:54
-	 */
-	int deleteByPrimaryKey(Integer bcid);
+    long countByExample(BankCardExample example);
 
-	/**
-	 * 插入 - 全字段保存
-	 * @since 2017-06-28 14:11:54
-	 */
-	int insert(BankCard record);
+    int deleteByExample(BankCardExample example);
 
-	/**
-	 * 插入 - 仅保存给定实体类中非null的字段
-	 * @since 2017-06-28 14:11:54
-	 */
-	int insertSelective(BankCard record);
+    int deleteByPrimaryKey(Integer bcid);
 
-	/**
-	 * 按主键查询
-	 * @since 2017-06-28 14:11:54
-	 */
-	BankCard selectByPrimaryKey(Integer bcid);
+    int insert(BankCard record);
 
-	/**
-	 * 按主键更新 - 仅更新给定实体类中非null的字段
-	 * @since 2017-06-28 14:11:54
-	 */
-	int updateByPrimaryKeySelective(BankCard record);
+    int insertSelective(BankCard record);
 
-	/**
-	 * 按主键更新 - 全更新
-	 * @since 2017-06-28 14:11:54
-	 */
-	int updateByPrimaryKey(BankCard record);
+    List<BankCard> selectByExample(BankCardExample example);
 
-	/**
-	 * 按 Criteria 条件查询, 支持分页
-	 * @since 2017-06-28 14:11:54
-	 */
-	List<BankCard> selectByCriteria(Criteria<BankCard> criteria);
+    BankCard selectByPrimaryKey(Integer bcid);
+
+    int updateByExampleSelective(@Param("record") BankCard record, @Param("example") BankCardExample example);
+
+    int updateByExample(@Param("record") BankCard record, @Param("example") BankCardExample example);
+
+    int updateByPrimaryKeySelective(BankCard record);
+
+    int updateByPrimaryKey(BankCard record);
 }

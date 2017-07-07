@@ -16,7 +16,7 @@ public class CreditApplyIdCardDto {
     /**
      * 用户id
      */
-    private Integer memId;
+    private Integer memberId;
 
     public String getFront() {
         return front;
@@ -34,11 +34,11 @@ public class CreditApplyIdCardDto {
         this.back = back;
     }
 
-    public Integer getMemId() {
-        return memId;
+    public Integer getMemberId() {
+        return memberId;
     }
 
-    public void setMemId(Integer memId) {
-        this.memId = memId;
+    public void setMemberId(Integer memberId) {
+        this.memberId = memberId;
     }
 }

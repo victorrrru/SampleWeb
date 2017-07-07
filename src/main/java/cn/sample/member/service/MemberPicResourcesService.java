@@ -7,8 +7,10 @@ import cn.itht.mybatis.criteria.Sort;
 import cn.sample.loan.web.bo.CreditApplyDrivingDto;
 import cn.sample.loan.web.bo.CreditApplyIdCardDto;
 import cn.sample.member.entity.MemberPicResources;
+import cn.sample.member.entity.MemberPicResourcesExample;
 import cn.sample.member.mapper.MemberPicResourcesMapper;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 
@@ -32,8 +34,8 @@ public class MemberPicResourcesService implements Serializable {
 	 * @param creditId
 	 */
 	public void insertIdCard(CreditApplyIdCardDto data, Integer creditId) {
-		insertMemberPic(data.getMemId(), (byte)1, creditId, (byte)2, data.getFront());
-		insertMemberPic(data.getMemId(), (byte)2, creditId, (byte)2, data.getBack());
+		insertMemberPic(data.getMemberId(), (byte)1, creditId, (byte)2, data.getFront());
+		insertMemberPic(data.getMemberId(), (byte)2, creditId, (byte)2, data.getBack());
 	}
 
 	/**
@@ -52,7 +54,10 @@ public class MemberPicResourcesService implements Serializable {
 	 * @param memberId
 	 */
 	public void getIdCardPic(Integer memberId) {
-		List<MemberPicResources> pic = selectPic(memberId, 1,2);
+		List<Short> list = new ArrayList<>();
+		list.add((short)1);
+		list.add((short)2);
+		List<MemberPicResources> pic = selectPic(memberId, list);
 		if (CollectionUtils.isEmpty(pic)) {
 			throw new ServiceOperationException("未找到身份证图片");
 		}
@@ -64,7 +69,10 @@ public class MemberPicResourcesService implements Serializable {
 	 * @param memberId
 	 */
 	public void getDrivingLisencePic(Integer memberId) {
-		List<MemberPicResources> pic = selectPic(memberId, 6, 7);
+		List<Short> list = new ArrayList<>();
+		list.add((short)6);
+		list.add((short)7);
+		List<MemberPicResources> pic = selectPic(memberId, list);
 		if (CollectionUtils.isEmpty(pic)) {
 			throw new ServiceOperationException("未找到行驶证图片");
 		}
@@ -76,14 +84,16 @@ public class MemberPicResourcesService implements Serializable {
 	 * @param memberId
 	 */
 	public void getFacePic(Integer memberId) {
-		List<MemberPicResources> pic = selectPic(memberId, 3);
+		List<Short> list = new ArrayList<>();
+		list.add((short)3);
+		List<MemberPicResources> pic = selectPic(memberId, list);
 		if (CollectionUtils.isEmpty(pic)) {
 			throw new ServiceOperationException("未找到人脸图片");
 		}
 		//todo 返回数据
 	}
 
-	private void insertMemberPic(Integer memberId, byte pictype, Integer objectId, byte objectType,String url) {
+	private void insertMemberPic(Integer memberId, short pictype, Integer objectId, byte objectType,String url) {
 		MemberPicResources memberPicResources = new MemberPicResources();
 		memberPicResources.setMemberId(memberId);
 		memberPicResources.setPictype(pictype);
@@ -93,11 +103,12 @@ public class MemberPicResourcesService implements Serializable {
 		memberPicResourcesMapper.insertSelective(memberPicResources);
 	}
 
-	private List<MemberPicResources> selectPic(Integer memberId, Object... values) {
-		return memberPicResourcesMapper.selectByCriteria(Criteria.create(MemberPicResources.class)
-				.add(ExpressionFactory.eq("memberId", memberId))
-				.add(ExpressionFactory.in("pictype", values))
-				.add(ExpressionFactory.eq("objectType", 2))
-				.sort(Sort.asc("memberId")));
+	private List<MemberPicResources> selectPic(Integer memberId, List list) {
+		MemberPicResourcesExample example = new MemberPicResourcesExample();
+		MemberPicResourcesExample.Criteria criteria = example.createCriteria();
+		criteria.andMemberIdEqualTo(memberId);
+		criteria.andPictypeIn(list);
+		criteria.andObjectTypeEqualTo((byte)2);
+		return memberPicResourcesMapper.selectByExample(example);
 	}
 }

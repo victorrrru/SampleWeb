@@ -14,12 +14,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Spring MVC Controler - 表：bank_card
  * @since 2017-06-28 14:11:54
  */
-@Controller
+@RestController
 @RequestMapping(value = "/noauthor/member")
 public class BankCardAction {
 	private static final Logger logger = LoggerFactory.getLogger(BankCardAction.class);
@@ -34,8 +35,8 @@ public class BankCardAction {
 	 * @return
 	 */
 	@RequestMapping(value = "/getBankCardList",method = RequestMethod.POST,produces = "application/json")
-	public ResponseEntity<ResultDto> getBankCardList(@RequestBody BankCardDto param) {
-		return new ResponseEntity<>(bankCardService.getBankCardListSer(param), HttpStatus.OK);
+	public ResponseEntity<ResultDto> getBankCardList(@RequestBody RequestDto<BankCardDto> param) {
+		return new ResponseEntity<>(bankCardService.getBankCardListSer(param.getData()), HttpStatus.OK);
 	}
 
 	/**

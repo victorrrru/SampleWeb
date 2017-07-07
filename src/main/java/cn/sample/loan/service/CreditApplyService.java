@@ -9,6 +9,7 @@ import cn.sample.common.CreditApplyStep;
 import cn.sample.common.FacePPUtil;
 import cn.sample.common.IDCardUtil;
 import cn.sample.loan.entity.CreditApply;
+import cn.sample.loan.entity.CreditApplyExample;
 import cn.sample.loan.mapper.CreditApplyMapper;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -55,9 +56,10 @@ public class CreditApplyService implements Serializable {
 		if (StringUtils.isEmpty(idCardInfo.getName())) {
 			throw new ServiceOperationException("身份证识别信息不全");
 		}
-		List<CreditApply> creditApplies = creditApplyMapper.selectByCriteria(Criteria.create(CreditApply.class)
-				.add(ExpressionFactory.eq("memberId", data.getMemId())));
-		if (CollectionUtils.isNotEmpty(creditApplies)) {
+		CreditApplyExample example = new CreditApplyExample();
+		example.createCriteria().andMemberIdEqualTo(data.getMemberId());
+		List<CreditApply> creditApplyList = creditApplyMapper.selectByExample(example);
+		if (CollectionUtils.isNotEmpty(creditApplyList)) {
 			throw new ServiceOperationException("该身份证已授信");
 		}
 		CreditApply creditApply = new CreditApply();
@@ -74,7 +76,7 @@ public class CreditApplyService implements Serializable {
 		creditApply.setAddress(idCardInfo.getAddress());
 		creditApply.setSex((byte)("男".equals(idCardInfo.getGender()) ? 0 : 1));
 		creditApply.setNation(idCardInfo.getRace());
-		creditApply.setMemberId(data.getMemId());
+		creditApply.setMemberId(data.getMemberId());
 		creditApply.setNativePlace(IDCardUtil.nativePlace(idCardInfo.getId_card_number()));
 		creditApplyMapper.insertSelective(creditApply);
 		return creditApply;
@@ -86,12 +88,13 @@ public class CreditApplyService implements Serializable {
 	 * @return
 	 */
 	public void updateDrivingInfo(CreditApplyDrivingDto data) {
-		List<CreditApply> creditApplies = creditApplyMapper.selectByCriteria(Criteria.create(CreditApply.class)
-				.add(ExpressionFactory.eq("memberId", data.getMemId())));
-		if (CollectionUtils.isEmpty(creditApplies)) {
+		CreditApplyExample example = new CreditApplyExample();
+		example.createCriteria().andMemberIdEqualTo(data.getMemId());
+		List<CreditApply> creditApplyList = creditApplyMapper.selectByExample(example);
+		if (CollectionUtils.isEmpty(creditApplyList)) {
 			throw new ServiceOperationException("请先上传身份证");
 		}
-		CreditApply creditApply = creditApplies.get(0);
+		CreditApply creditApply = creditApplyList.get(0);
 		if (creditApply.getApplyStep() != CreditApplyStep.CAR.getStep()) {
 			throw new ServiceOperationException("当前不在上传驾驶证步骤");
 		}
@@ -106,12 +109,13 @@ public class CreditApplyService implements Serializable {
 	 * @return
 	 */
 	public void updatePersonalInfo(CreditApplyPersonalDto data) {
-		List<CreditApply> creditApplies = creditApplyMapper.selectByCriteria(Criteria.create(CreditApply.class)
-				.add(ExpressionFactory.eq("memberId", data.getMemberId())));
-		if (CollectionUtils.isEmpty(creditApplies)) {
+		CreditApplyExample example = new CreditApplyExample();
+		example.createCriteria().andMemberIdEqualTo(data.getMemberId());
+		List<CreditApply> creditApplyList = creditApplyMapper.selectByExample(example);
+		if (CollectionUtils.isEmpty(creditApplyList)) {
 			throw new ServiceOperationException("请先上传身份证");
 		}
-		CreditApply creditApply = creditApplies.get(0);
+		CreditApply creditApply = creditApplyList.get(0);
 		if (creditApply.getApplyStep() != CreditApplyStep.PERSONAL_INFO.getStep()) {
 			throw new ServiceOperationException("当前不在填写个人信息步骤");
 		}
@@ -121,8 +125,10 @@ public class CreditApplyService implements Serializable {
 	}
 
 	public List<CreditApply> findAll(Integer memberId) {
-		return creditApplyMapper.selectByCriteria(Criteria.create(CreditApply.class)
-				.add(ExpressionFactory.eq("memberId", memberId)));
+		CreditApplyExample example = new CreditApplyExample();
+		example.createCriteria().andMemberIdEqualTo(memberId);
+		List<CreditApply> creditApplyList = creditApplyMapper.selectByExample(example);
+		return creditApplyList;
 	}
 
 

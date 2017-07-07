@@ -61,8 +61,8 @@ public class Configs {
     /**
      * face++
      */
-    public static String FACE_APPKEY = "DD7TfA6qe2WJ4eD10ErAdiF1jroWl0cZ";
-    public static String FACE_APPSecret = "lih8YUkeemi4T2bxDLCpb7EC_jb-6Dag";
+    public static String FACE_APPKEY;
+    public static String FACE_APPSecret;
 
 
     //联动短信配置
@@ -89,7 +89,8 @@ public class Configs {
             apns= properties.getProperty("apns");
             regionId = properties.getProperty("regionId");
 
-
+            FACE_APPKEY = properties.getProperty("faceAppkey");
+            FACE_APPSecret = properties.getProperty("faceAppSecret");
 
             ld_url =properties.getProperty("ld_url");
             ld_authCode =properties.getProperty("ld_authCode");

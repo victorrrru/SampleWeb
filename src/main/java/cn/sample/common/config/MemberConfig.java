@@ -23,7 +23,7 @@ import javax.sql.DataSource;
 @Primary
 public class MemberConfig {
     @Bean(name = "memberDataSource")
-    @ConfigurationProperties(prefix = "spring.member.datasource")
+    @ConfigurationProperties(prefix = "spring.datasource.member")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
@@ -34,6 +34,7 @@ public class MemberConfig {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
         bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:cn/sample/member/**/*Mapper.xml"));
+        bean.setTypeAliasesPackage("cn.sample.member.entity");
         return bean.getObject();
     }
 

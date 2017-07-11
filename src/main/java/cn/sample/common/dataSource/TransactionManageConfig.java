@@ -2,6 +2,7 @@ package cn.sample.common.dataSource;
 
 import com.atomikos.icatch.jta.UserTransactionImp;
 import com.atomikos.icatch.jta.UserTransactionManager;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -29,16 +30,15 @@ public class TransactionManageConfig {
     @Bean(name = "atomikosTransactionManager", initMethod = "init", destroyMethod = "close")
     public TransactionManager atomikosTransactionManager() throws Throwable {
         UserTransactionManager userTransactionManager = new UserTransactionManager();
-        userTransactionManager.setForceShutdown(false);
+        userTransactionManager.setForceShutdown(true);
         return userTransactionManager;
     }
 
     @Bean(name = "transactionManager")
     @DependsOn({ "userTransaction", "atomikosTransactionManager" })
-    public PlatformTransactionManager transactionManager() throws Throwable {
-        UserTransaction userTransaction = userTransaction();
-        JtaTransactionManager manager = new JtaTransactionManager(userTransaction, atomikosTransactionManager());
-        return manager;
+    public PlatformTransactionManager transactionManager(@Qualifier("userTransaction") UserTransaction transaction, @Qualifier("atomikosTransactionManager") TransactionManager manager) throws Throwable {
+        JtaTransactionManager jtaManager = new JtaTransactionManager(transaction, manager);
+        return jtaManager;
     }
 
 }

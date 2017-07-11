@@ -1,9 +1,9 @@
-package cn.sample.common;
+package cn.sample.common.Enum;
 
 /**
  * Created by think on 2017/5/6.
  */
-public enum CreditApplyStep {
+public enum CreditApplyStepEnum {
     ID_CARD("身份认证",1),
     FACE("人脸识别",2),
     CAR("车辆信息",3),
@@ -16,7 +16,7 @@ public enum CreditApplyStep {
     private final String name;
     private final int step;
 
-    CreditApplyStep(String name, int step) {
+    CreditApplyStepEnum(String name, int step) {
         this.name = name;
         this.step = step;
     }

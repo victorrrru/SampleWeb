@@ -2,8 +2,8 @@ package cn.sample.domain.loan.service;
 
 
 import cn.itht.exception.ServiceOperationException;
-import cn.sample.common.ApplyStateEnum;
-import cn.sample.common.CreditApplyStep;
+import cn.sample.common.Enum.CreditApplyStateEnum;
+import cn.sample.common.Enum.CreditApplyStepEnum;
 import cn.sample.common.FacePPUtil;
 import cn.sample.common.IDCardUtil;
 import cn.sample.domain.loan.entity.CreditApply;
@@ -25,6 +25,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 业务实现层 - 表：credit_apply
@@ -61,8 +63,8 @@ public class CreditApplyService implements Serializable {
 			throw new ServiceOperationException("该身份证已授信");
 		}
 		CreditApply creditApply = new CreditApply();
-		creditApply.setApplyState((byte)ApplyStateEnum.APPLYING.getIndex());
-		creditApply.setApplyStep((byte)CreditApplyStep.FACE.getStep());
+		creditApply.setApplyState((byte) CreditApplyStateEnum.APPLYING.getIndex());
+		creditApply.setApplyStep((byte) CreditApplyStepEnum.FACE.getStep());
 		creditApply.setApplyTime(new Date());
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Integer.parseInt(idCardInfo.getBirthday().get("year").asText()),
@@ -93,11 +95,11 @@ public class CreditApplyService implements Serializable {
 			throw new ServiceOperationException("请先上传身份证");
 		}
 		CreditApply creditApply = creditApplyList.get(0);
-		if (creditApply.getApplyStep() != CreditApplyStep.CAR.getStep()) {
+		if (creditApply.getApplyStep() != CreditApplyStepEnum.CAR.getStep()) {
 			throw new ServiceOperationException("当前不在上传驾驶证步骤");
 		}
 		BeanUtils.copyProperties(data, creditApply);
-		creditApply.setApplyStep((byte)CreditApplyStep.PERSONAL_INFO.getStep());
+		creditApply.setApplyStep((byte) CreditApplyStepEnum.PERSONAL_INFO.getStep());
 		creditApplyMapper.updateByPrimaryKeySelective(creditApply);
 	}
 
@@ -114,11 +116,11 @@ public class CreditApplyService implements Serializable {
 			throw new ServiceOperationException("请先上传身份证");
 		}
 		CreditApply creditApply = creditApplyList.get(0);
-		if (creditApply.getApplyStep() != CreditApplyStep.PERSONAL_INFO.getStep()) {
+		if (creditApply.getApplyStep() != CreditApplyStepEnum.PERSONAL_INFO.getStep()) {
 			throw new ServiceOperationException("当前不在填写个人信息步骤");
 		}
 		BeanUtils.copyProperties(data, creditApply);
-		creditApply.setApplyStep((byte)CreditApplyStep.AUTHORISE.getStep());
+		creditApply.setApplyStep((byte) CreditApplyStepEnum.AUTHORISE.getStep());
 		creditApplyMapper.updateByPrimaryKeySelective(creditApply);
 	}
 

@@ -1,7 +1,7 @@
 package cn.sample.facade;
 
 import cn.itht.dto.ResultDto;
-import cn.sample.common.CreditApplyStep;
+import cn.sample.common.Enum.CreditApplyStepEnum;
 import cn.sample.domain.config.service.CommDataConfigService;
 import cn.sample.domain.loan.entity.CreditApply;
 import cn.sample.domain.loan.service.CreditApplyService;
@@ -14,6 +14,8 @@ import cn.sample.domain.member.service.MemberService;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -37,6 +39,7 @@ public class LoanFacade {
      * @param data
      * @return
      */
+    @Transactional
     public ResultDto creditIdCard(CreditApplyIdCardDto data) {
         ResultDto result = new ResultDto();
         result.setMsg("授信传入身份证");
@@ -90,13 +93,13 @@ public class LoanFacade {
             return result;
         }
         CreditApply creditApply = creditApplies.get(0);
-        if (creditApply.getApplyStep() != CreditApplyStep.ID_CARD.getStep()) {
+        if (creditApply.getApplyStep() != CreditApplyStepEnum.ID_CARD.getStep()) {
             memberPicResourcesService.getIdCardPic(memberId);
         }
-        if (creditApply.getApplyStep() > CreditApplyStep.FACE.getStep()) {
+        if (creditApply.getApplyStep() > CreditApplyStepEnum.FACE.getStep()) {
             memberPicResourcesService.getFacePic(memberId);
         }
-        if (creditApply.getApplyStep() > CreditApplyStep.CAR.getStep()) {
+        if (creditApply.getApplyStep() > CreditApplyStepEnum.CAR.getStep()) {
             memberPicResourcesService.getDrivingLisencePic(memberId);
         }
 

@@ -62,20 +62,30 @@
       <artifactId>spring-boot-starter-redis</artifactId>
       <version>1.4.7.RELEASE</version>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jta-atomikos</artifactId>
+    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>org.springframework.boot</groupId>-->
+      <!--<artifactId>spring-boot-configuration-processor</artifactId>-->
+      <!--<optional>true</optional>-->
+    <!--</dependency>-->
+
   </dependencies>
 
   <repositories>
     <repository>
-      <releases>
-        <enabled>false</enabled>
-        <updatePolicy>always</updatePolicy>
-        <checksumPolicy>warn</checksumPolicy>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-        <updatePolicy>never</updatePolicy>
-        <checksumPolicy>fail</checksumPolicy>
-      </snapshots>
+      <!--<releases>-->
+        <!--<enabled>false</enabled>-->
+        <!--<updatePolicy>always</updatePolicy>-->
+        <!--<checksumPolicy>warn</checksumPolicy>-->
+      <!--</releases>-->
+      <!--<snapshots>-->
+        <!--<enabled>true</enabled>-->
+        <!--<updatePolicy>never</updatePolicy>-->
+        <!--<checksumPolicy>fail</checksumPolicy>-->
+      <!--</snapshots>-->
       <id>central</id>
       <url>http://192.168.0.218:8081/nexus/content/groups/public/</url>
       <name>Maven Central</name>
@@ -110,6 +120,7 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.6.1</version>
         <configuration>
+          <!--<proc>none</proc>-->
           <source>1.8</source>
           <target>1.8</target>
           <skip>true</skip>

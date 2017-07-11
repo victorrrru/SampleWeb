@@ -1,6 +1,6 @@
 package cn.sample.common.config;
 
-import cn.sample.common.dataSource.LoanDataSourceConfig;
+import cn.sample.common.dataSource.CommDataSourceConfig;
 import com.atomikos.jdbc.AtomikosDataSourceBean;
 import com.mysql.jdbc.jdbc2.optional.MysqlXADataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -16,14 +16,15 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 /**
- * Created by Administrator on 2017/7/5.
+ * Created by victorrrr
+ * Date : 2017/7/5 19:32
  */
 @Configuration
-@MapperScan(basePackages = {"cn.sample.domain.loan.mapper"}, sqlSessionTemplateRef = "loanSqlSessionTemplate")
-public class LoanConfig {
+@MapperScan(basePackages = {"cn.sample.domain.config.mapper"}, sqlSessionTemplateRef = "commSqlSessionTemplate")
+public class CommConfig {
     // 配置数据源
-    @Bean(name = "loanDataSource")
-    public DataSource loanDataSource(LoanDataSourceConfig dataSource) throws SQLException {
+    @Bean(name = "commDataSource")
+    public DataSource commDataSource(CommDataSourceConfig dataSource) throws SQLException {
         MysqlXADataSource mysqlXaDataSource = new MysqlXADataSource();
         mysqlXaDataSource.setUrl(dataSource.getUrl());
         mysqlXaDataSource.setPinGlobalTxToPhysicalConnection(true);
@@ -32,24 +33,23 @@ public class LoanConfig {
         mysqlXaDataSource.setPinGlobalTxToPhysicalConnection(true);
         AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
         xaDataSource.setXaDataSource(mysqlXaDataSource);
-        xaDataSource.setUniqueResourceName("loanDataSource");
+        xaDataSource.setUniqueResourceName("commDataSource");
         return xaDataSource;
     }
 
-    @Bean(name = "loanSqlSessionFactory")
-    public SqlSessionFactory loanSqlSessionFactory(@Qualifier("loanDataSource") DataSource dataSource)
+    @Bean(name = "commSqlSessionFactory")
+    public SqlSessionFactory commSqlSessionFactory(@Qualifier("commDataSource") DataSource dataSource)
             throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
         bean.setMapperLocations(
-                new PathMatchingResourcePatternResolver().getResources("classpath*:cn/sample/domain/loan/**/*Mapper.xml"));
+                new PathMatchingResourcePatternResolver().getResources("classpath*:cn/sample/domain/config/**/*Mapper.xml"));
         return bean.getObject();
     }
 
-    @Bean(name = "loanSqlSessionTemplate")
-    public SqlSessionTemplate loanSqlSessionTemplate(
-            @Qualifier("loanSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
+    @Bean(name = "commSqlSessionTemplate")
+    public SqlSessionTemplate commSqlSessionTemplate(
+            @Qualifier("commSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
-
 }

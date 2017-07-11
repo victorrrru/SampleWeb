@@ -1,6 +1,6 @@
-package cn.sample.common;
+package cn.sample.common.Enum;
 
-public enum ApplyStateEnum {
+public enum CreditApplyStateEnum {
     //授信申请审核状态（0填写资料申请中1提交完资料审批中2初审通过3初审不通过4终审通过5终审不通过6自动审批通过7自动审批不通过）
     APPLYING("填写资料申请中", 0),
     APPROVING("提交完资料审批中", 1),
@@ -14,7 +14,7 @@ public enum ApplyStateEnum {
     private String name;
     private int index;
     // 构造方法
-    private ApplyStateEnum(String name, int index) {
+    private CreditApplyStateEnum(String name, int index) {
         this.name = name;
         this.index = index;
     }

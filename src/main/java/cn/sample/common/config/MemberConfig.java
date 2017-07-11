@@ -1,19 +1,20 @@
 package cn.sample.common.config;
 
+import cn.sample.common.dataSource.MemberDataSourceConfig;
+import com.atomikos.jdbc.AtomikosDataSourceBean;
+import com.mysql.jdbc.jdbc2.optional.MysqlXADataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 /**
  * Created by Administrator on 2017/7/5.
@@ -22,31 +23,35 @@ import javax.sql.DataSource;
 @MapperScan(basePackages = {"cn.sample.domain.member.mapper"}, sqlSessionTemplateRef = "memberSqlSessionTemplate")
 @Primary
 public class MemberConfig {
+    // 配置数据源
+    @Primary
     @Bean(name = "memberDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.member")
-    public DataSource dataSource() {
-        return DataSourceBuilder.create().build();
+    public DataSource memberDataSource(MemberDataSourceConfig dataSource) throws SQLException {
+        MysqlXADataSource mysqlXaDataSource = new MysqlXADataSource();
+        mysqlXaDataSource.setUrl(dataSource.getUrl());
+        mysqlXaDataSource.setPinGlobalTxToPhysicalConnection(true);
+        mysqlXaDataSource.setPassword(dataSource.getPassword());
+        mysqlXaDataSource.setUser(dataSource.getUsername());
+        mysqlXaDataSource.setPinGlobalTxToPhysicalConnection(true);
+        AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
+        xaDataSource.setXaDataSource(mysqlXaDataSource);
+        xaDataSource.setUniqueResourceName("memberDataConfig");
+        return xaDataSource;
     }
 
     @Bean(name = "memberSqlSessionFactory")
-    @Primary
-    public SqlSessionFactory sqlSessionFactory(@Qualifier("memberDataSource") DataSource dataSource) throws Exception {
+    public SqlSessionFactory memberSqlSessionFactory(@Qualifier("memberDataSource") DataSource dataSource)
+            throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:cn/sample/domain/member/**/*Mapper.xml"));
-        bean.setTypeAliasesPackage("cn.sample.domain.member.entity");
+        bean.setMapperLocations(
+                new PathMatchingResourcePatternResolver().getResources("classpath*:cn/sample/domain/member/**/*Mapper.xml"));
         return bean.getObject();
     }
 
-    @Bean(name = "memberTransactionManager")
-    public DataSourceTransactionManager transactionManager(@Qualifier("memberDataSource") DataSource dataSource) {
-        DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource);
-        manager.setDefaultTimeout(300);
-        return manager;
-    }
-
     @Bean(name = "memberSqlSessionTemplate")
-    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("memberSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
+    public SqlSessionTemplate memberSqlSessionTemplate(
+            @Qualifier("memberSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 

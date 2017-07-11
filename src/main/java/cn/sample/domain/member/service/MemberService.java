@@ -80,21 +80,21 @@ public class MemberService implements Serializable {
 			result.setCode("1");
 			return result;
 		}
-		String code = stringRedisTemplate.opsForValue().get(data.getMobileno());
-		if (code == null) {
-			code = "";
-		}
-		if (data.getVerifyCode().equals(code)) {
+//		String code = stringRedisTemplate.opsForValue().get(data.getMobileno());
+//		if (code == null) {
+//			code = "";
+//		}
+//		if (data.getVerifyCode().equals(code)) {
 			Member member = new Member();
 			member.setMobileno(data.getMobileno());
 			member.setLoginpsw(data.getLoginPwd());
 			member.setInvitecode(data.getInviteCode());
 			memberMapper.insertSelective(member);
 			result.setMsg("注册成功");
-		} else {
-			result.setMsg("验证码错误，请重新输入");
-			result.setCode("2");
-		}
+//		} else {
+//			result.setMsg("验证码错误，请重新输入");
+//			result.setCode("2");
+//		}
 		return result;
 	}
 

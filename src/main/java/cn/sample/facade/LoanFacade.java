@@ -55,11 +55,12 @@ public class LoanFacade {
      * @param data
      * @return
      */
+    @Transactional
     public ResultDto creditDriving(CreditApplyDrivingDto data) {
         ResultDto result = new ResultDto();
         result.setMsg("授信传入驾驶证");
-        creditApplyService.updateDrivingInfo(data);
         memberPicResourcesService.insertDrivingLisence(data);
+        creditApplyService.updateDrivingInfo(data);
         return result;
     }
 

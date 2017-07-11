@@ -22,22 +22,21 @@ import java.sql.SQLException;
 @MapperScan(basePackages = {"cn.sample.domain.loan.mapper"}, sqlSessionTemplateRef = "loanSqlSessionTemplate")
 public class LoanConfig {
     // 配置数据源
-    @Bean(name = "loanDataSource")
+    @Bean(name = "loanSource")
     public DataSource loanDataSource(LoanDataSourceConfig dataSource) throws SQLException {
         MysqlXADataSource mysqlXaDataSource = new MysqlXADataSource();
         mysqlXaDataSource.setUrl(dataSource.getUrl());
-        mysqlXaDataSource.setPinGlobalTxToPhysicalConnection(true);
-        mysqlXaDataSource.setPassword(dataSource.getPassword());
         mysqlXaDataSource.setUser(dataSource.getUsername());
+        mysqlXaDataSource.setPassword(dataSource.getPassword());
         mysqlXaDataSource.setPinGlobalTxToPhysicalConnection(true);
         AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
         xaDataSource.setXaDataSource(mysqlXaDataSource);
-        xaDataSource.setUniqueResourceName("loanDataSource");
+        xaDataSource.setUniqueResourceName("loanSource");
         return xaDataSource;
     }
 
     @Bean(name = "loanSqlSessionFactory")
-    public SqlSessionFactory loanSqlSessionFactory(@Qualifier("loanDataSource") DataSource dataSource)
+    public SqlSessionFactory loanSqlSessionFactory(@Qualifier("loanSource") DataSource dataSource)
             throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);

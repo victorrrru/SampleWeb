@@ -23,22 +23,21 @@ import java.sql.SQLException;
 @MapperScan(basePackages = {"cn.sample.domain.config.mapper"}, sqlSessionTemplateRef = "commSqlSessionTemplate")
 public class CommConfig {
     // 配置数据源
-    @Bean(name = "commDataSource")
+    @Bean(name = "commSource")
     public DataSource commDataSource(CommDataSourceConfig dataSource) throws SQLException {
         MysqlXADataSource mysqlXaDataSource = new MysqlXADataSource();
         mysqlXaDataSource.setUrl(dataSource.getUrl());
-        mysqlXaDataSource.setPinGlobalTxToPhysicalConnection(true);
-        mysqlXaDataSource.setPassword(dataSource.getPassword());
         mysqlXaDataSource.setUser(dataSource.getUsername());
+        mysqlXaDataSource.setPassword(dataSource.getPassword());
         mysqlXaDataSource.setPinGlobalTxToPhysicalConnection(true);
         AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
         xaDataSource.setXaDataSource(mysqlXaDataSource);
-        xaDataSource.setUniqueResourceName("commDataSource");
+        xaDataSource.setUniqueResourceName("commSource");
         return xaDataSource;
     }
 
     @Bean(name = "commSqlSessionFactory")
-    public SqlSessionFactory commSqlSessionFactory(@Qualifier("commDataSource") DataSource dataSource)
+    public SqlSessionFactory commSqlSessionFactory(@Qualifier("commSource") DataSource dataSource)
             throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);

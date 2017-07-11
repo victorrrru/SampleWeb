@@ -25,22 +25,21 @@ import java.sql.SQLException;
 public class MemberConfig {
     // 配置数据源
     @Primary
-    @Bean(name = "memberDataSource")
+    @Bean(name = "memberSource")
     public DataSource memberDataSource(MemberDataSourceConfig dataSource) throws SQLException {
         MysqlXADataSource mysqlXaDataSource = new MysqlXADataSource();
         mysqlXaDataSource.setUrl(dataSource.getUrl());
-        mysqlXaDataSource.setPinGlobalTxToPhysicalConnection(true);
-        mysqlXaDataSource.setPassword(dataSource.getPassword());
         mysqlXaDataSource.setUser(dataSource.getUsername());
+        mysqlXaDataSource.setPassword(dataSource.getPassword());
         mysqlXaDataSource.setPinGlobalTxToPhysicalConnection(true);
         AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
         xaDataSource.setXaDataSource(mysqlXaDataSource);
-        xaDataSource.setUniqueResourceName("memberDataConfig");
+        xaDataSource.setUniqueResourceName("memberSource");
         return xaDataSource;
     }
 
     @Bean(name = "memberSqlSessionFactory")
-    public SqlSessionFactory memberSqlSessionFactory(@Qualifier("memberDataSource") DataSource dataSource)
+    public SqlSessionFactory memberSqlSessionFactory(@Qualifier("memberSource") DataSource dataSource)
             throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);

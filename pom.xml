@@ -66,6 +66,12 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-jta-atomikos</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.16.16</version>
+      <scope>provided</scope>
+    </dependency>
     <!--spring-boot-configuration:spring boot 配置处理器 -->
     <!--<dependency>-->
       <!--<groupId>org.springframework.boot</groupId>-->

@@ -36,7 +36,8 @@ public class TransactionManageConfig {
 
     @Bean(name = "transactionManager")
     @DependsOn({ "userTransaction", "atomikosTransactionManager" })
-    public PlatformTransactionManager transactionManager(@Qualifier("userTransaction") UserTransaction transaction, @Qualifier("atomikosTransactionManager") TransactionManager manager) throws Throwable {
+    public PlatformTransactionManager transactionManager(@Qualifier("userTransaction") UserTransaction transaction,
+                                                         @Qualifier("atomikosTransactionManager") TransactionManager manager) throws Throwable {
         JtaTransactionManager jtaManager = new JtaTransactionManager(transaction, manager);
         return jtaManager;
     }

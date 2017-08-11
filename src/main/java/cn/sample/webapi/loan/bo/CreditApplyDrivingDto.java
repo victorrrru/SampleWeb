@@ -1,6 +1,7 @@
 package cn.sample.webapi.loan.bo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -9,6 +10,7 @@ import java.util.Date;
 /**
  * Created by victorrrr on 2017/6/29.
  */
+@Data
 public class CreditApplyDrivingDto {
 
     @NotNull(message = "正面照不能为空")
@@ -18,7 +20,6 @@ public class CreditApplyDrivingDto {
 
     @NotNull(message = "行驶证正面照不能为空")
     private String cfront = null;
-
 
     @NotNull(message = "行驶证背面照不能为空")
     private String cback = null;
@@ -63,139 +64,4 @@ public class CreditApplyDrivingDto {
     /** car_insurance_amount -- 保费金额 */
     private BigDecimal carInsuranceAmount;
 
-    public String getDfront() {
-        return dfront;
-    }
-
-    public void setDfront(String dfront) {
-        this.dfront = dfront;
-    }
-
-    public String getDback() {
-        return dback;
-    }
-
-    public void setDback(String dback) {
-        this.dback = dback;
-    }
-
-    public String getCfront() {
-        return cfront;
-    }
-
-    public void setCfront(String cfront) {
-        this.cfront = cfront;
-    }
-
-    public String getCback() {
-        return cback;
-    }
-
-    public void setCback(String cback) {
-        this.cback = cback;
-    }
-
-    public Integer getMemId() {
-        return memId;
-    }
-
-    public void setMemId(Integer memId) {
-        this.memId = memId;
-    }
-
-    public Integer getCreditApplyId() {
-        return creditApplyId;
-    }
-
-    public void setCreditApplyId(Integer creditApplyId) {
-        this.creditApplyId = creditApplyId;
-    }
-
-    public String getCarNumber() {
-        return carNumber;
-    }
-
-    public void setCarNumber(String carNumber) {
-        this.carNumber = carNumber;
-    }
-
-    public String getCarBrand() {
-        return carBrand;
-    }
-
-    public void setCarBrand(String carBrand) {
-        this.carBrand = carBrand;
-    }
-
-    public String getCarLisence() {
-        return carLisence;
-    }
-
-    public void setCarLisence(String carLisence) {
-        this.carLisence = carLisence;
-    }
-
-    public Byte getCarProperty() {
-        return carProperty;
-    }
-
-    public void setCarProperty(Byte carProperty) {
-        this.carProperty = carProperty;
-    }
-
-    public Byte getCarDriven() {
-        return carDriven;
-    }
-
-    public void setCarDriven(Byte carDriven) {
-        this.carDriven = carDriven;
-    }
-
-    public String getCarOwner() {
-        return carOwner;
-    }
-
-    public void setCarOwner(String carOwner) {
-        this.carOwner = carOwner;
-    }
-
-    public String getCarCode() {
-        return carCode;
-    }
-
-    public void setCarCode(String carCode) {
-        this.carCode = carCode;
-    }
-
-    public Date getBuyDate() {
-        return buyDate;
-    }
-
-    public void setBuyDate(Date buyDate) {
-        this.buyDate = buyDate;
-    }
-
-    public Short getCounts() {
-        return counts;
-    }
-
-    public void setCounts(Short counts) {
-        this.counts = counts;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public BigDecimal getCarInsuranceAmount() {
-        return carInsuranceAmount;
-    }
-
-    public void setCarInsuranceAmount(BigDecimal carInsuranceAmount) {
-        this.carInsuranceAmount = carInsuranceAmount;
-    }
 }

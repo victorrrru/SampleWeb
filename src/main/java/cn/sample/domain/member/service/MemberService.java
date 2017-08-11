@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Random;
 
 /**
  * 业务实现层 - 表：member
@@ -57,6 +58,7 @@ public class MemberService implements Serializable {
 	public ResultDto sendVerifyCodeSer(MemberDto data) {
 		ResultDto result = new ResultDto();
 		result.setMsg("发送短信验证码");
+//		String code = new Random().nextInt(1000000) + "";
 		String code = (int)((Math.random() * 9 + 1) * 100000) + "";
 		String mobile_code = "{\"code\":\"" + code + "\"}";
 		//AliTools.sendMsg(data.getMobileno(), mobile_code, Configs.registcode);

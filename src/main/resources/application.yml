@@ -1,26 +1,31 @@
 spring:
-    profiles:
-      active: dev
+  profiles:
+    active: dev
 
-    datasource:
-      member:
-        url: jdbc:mysql://192.168.0.181:3306/sample_member?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8
-        username: root
-        password: 123456
-        driver-class-name: com.mysql.jdbc.Driver
-      loan:
-        url: jdbc:mysql://192.168.0.181:3306/sample_loan?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8
-        username: root
-        password: 123456
-        driver-class-name: com.mysql.jdbc.Driver
-      config:
-        url: jdbc:mysql://192.168.0.181:3306/sample_config?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8
-        username: root
-        password: 123456
-        driver-class-name: com.mysql.jdbc.Driver
+  datasource:
+    member:
+      url: jdbc:mysql://192.168.0.181:3306/sample_member?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.jdbc.Driver
+    loan:
+      url: jdbc:mysql://192.168.0.181:3306/sample_loan?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.jdbc.Driver
+    config:
+      url: jdbc:mysql://192.168.0.181:3306/sample_config?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.jdbc.Driver
 
-    session:
-      store-type: none
+  session:
+    store-type: none
 
-    aop:
-      auto: true
+  aop:
+    auto: true
+
+logging:
+  config: classpath:logback.xml
+#logging:
+#  path: /workspace/rock/jpa-test/log

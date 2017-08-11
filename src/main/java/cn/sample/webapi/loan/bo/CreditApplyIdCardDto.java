@@ -1,8 +1,11 @@
 package cn.sample.webapi.loan.bo;
 
+import lombok.Data;
+
 /**
  * Created by victorrrr on 2017/6/23.
  */
+@Data
 public class CreditApplyIdCardDto {
 
     /**
@@ -18,27 +21,4 @@ public class CreditApplyIdCardDto {
      */
     private Integer memberId;
 
-    public String getFront() {
-        return front;
-    }
-
-    public void setFront(String front) {
-        this.front = front;
-    }
-
-    public String getBack() {
-        return back;
-    }
-
-    public void setBack(String back) {
-        this.back = back;
-    }
-
-    public Integer getMemberId() {
-        return memberId;
-    }
-
-    public void setMemberId(Integer memberId) {
-        this.memberId = memberId;
-    }
 }

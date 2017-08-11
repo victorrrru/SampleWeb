@@ -1,10 +1,12 @@
 package cn.sample.webapi.member.bo;
 
+import lombok.Data;
+
 /**
  * Created by victorrrr on 2017/6/28.
  */
+@Data
 public class BankCardDto {
-
     /**
      * 用户id
      */
@@ -26,43 +28,4 @@ public class BankCardDto {
      */
     private String bankCardno;
 
-    public Integer getMemberId() {
-        return memberId;
-    }
-
-    public void setMemberId(Integer memberId) {
-        this.memberId = memberId;
-    }
-
-    public String getCardholder() {
-        return cardholder;
-    }
-
-    public void setCardholder(String cardholder) {
-        this.cardholder = cardholder;
-    }
-
-    public String getCollectionBank() {
-        return collectionBank;
-    }
-
-    public void setCollectionBank(String collectionBank) {
-        this.collectionBank = collectionBank;
-    }
-
-    public String getMobileno() {
-        return mobileno;
-    }
-
-    public void setMobileno(String mobileno) {
-        this.mobileno = mobileno;
-    }
-
-    public String getBankCardno() {
-        return bankCardno;
-    }
-
-    public void setBankCardno(String bankCardno) {
-        this.bankCardno = bankCardno;
-    }
 }

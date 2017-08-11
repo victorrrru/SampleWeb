@@ -1,10 +1,12 @@
 package cn.sample.webapi.member.bo;
 
+import lombok.Data;
+
 /**
  * Created by victorrrr on 2017/6/22.
  */
+@Data
 public class MemberDto {
-
     /**
      * 手机号
      */
@@ -50,91 +52,4 @@ public class MemberDto {
      */
     private String idCard;
 
-    public String getMobileno() {
-        return mobileno;
-    }
-
-    public void setMobileno(String mobileno) {
-        this.mobileno = mobileno;
-    }
-
-    public String getVerifyCode() {
-        return verifyCode;
-    }
-
-    public void setVerifyCode(String verifyCode) {
-        this.verifyCode = verifyCode;
-    }
-
-    public String getLoginPwd() {
-        return loginPwd;
-    }
-
-    public void setLoginPwd(String loginPwd) {
-        this.loginPwd = loginPwd;
-    }
-
-    public String getNewLoginPwd() {
-        return newLoginPwd;
-    }
-
-    public void setNewLoginPwd(String newLoginPwd) {
-        this.newLoginPwd = newLoginPwd;
-    }
-
-    public String getInviteCode() {
-        return inviteCode;
-    }
-
-    public void setInviteCode(String inviteCode) {
-        this.inviteCode = inviteCode;
-    }
-
-    public Byte getUpdateLoginPwdType() {
-        return updateLoginPwdType;
-    }
-
-    public void setUpdateLoginPwdType(Byte updateLoginPwdType) {
-        this.updateLoginPwdType = updateLoginPwdType;
-    }
-
-    public String getTransactionPwd() {
-        return transactionPwd;
-    }
-
-    public void setTransactionPwd(String transactionPwd) {
-        this.transactionPwd = transactionPwd;
-    }
-
-    public String getNewTransactionPwd() {
-        return newTransactionPwd;
-    }
-
-    public void setNewTransactionPwd(String newTransactionPwd) {
-        this.newTransactionPwd = newTransactionPwd;
-    }
-
-    public Byte getNextStep() {
-        return nextStep;
-    }
-
-    public void setNextStep(Byte nextStep) {
-        this.nextStep = nextStep;
-    }
-
-    public String getRealName() {
-        return realName;
-    }
-
-    public void setRealName(String realName) {
-        this.realName = realName;
-    }
-
-    public String getIdCard() {
-        return idCard;
-    }
-
-    public void setIdCard(String idCard) {
-        this.idCard = idCard;
-    }
 }
